@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>
+      A Mini-Course in Cryptography
+    </title>
+    <meta name="keywords" content="cryptography, course, class, google, crypto, encrypt, decrypt, digital signatures" />
+    <meta name="description" content="A mini-course in cryptography taught by Stephen Weis" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="verify-v1" content="dYmsZ+idh69vw24n1Ij9SgYbwWAHelw1YcYzfEUzFz8=" />
+    <link rel="stylesheet" href="style.css" type="text/css" />
+  </head>
+
+<body>
+<h1>
+  Stephen A. Weis
+</h1>
+<address>
+  <a href="http://saweis.net">saweis.net</a>
+</address>
+<hr />
+<h3>
+  Theory and Practice of Cryptography Mini-Course
+</h3>
+<h4>
+  Introduction
+</h4>
+<p>
+  This mini-course was taught in 2007 at Google. Some course material will be posted on this page.
+</p>
+<h4>
+  Video Lectures
+</h4>
+<ul>
+  <li>
+    <a href="http://www.youtube.com/watch?v=IzVCrSrZIX8">Classical to Modern Cryptography</a>
+  </li>
+  <li>
+    <a href="http://youtube.com/watch?v=KDvt_0cafPw">Using Cryptography in Practice</a>
+  </li>
+  <li>
+    <a href="http://youtube.com/watch?v=YcgqBEzcD_I">Security Definitions and Proofs of Security</a>
+  </li>
+  <li>
+    <a href="http://youtube.com/watch?v=ZDnShu5V99s">Verifying Elections with Cryptography</a>. Guest Lecturer: <a href="http://ben.adida.net">Ben Adida</a>.
+  </li>
+</ul>
+<h4>
+  Lecture Slides
+</h4>
+<ul>
+  <li>
+    <a href="pdfs/CryptoL1.pdf">Lecture 1: From Historical to Modern Cryptography</a>
+  </li>
+  <li>
+    <a href="pdfs/CryptoL2.pdf">Lecture 2: Cryptography in Practice</a>
+  </li>
+  <li>
+    <a href="pdfs/CryptoL3.pdf">Lecture 3: Theory of Cryptography</a>
+  </li>
+  <li>
+    <a href="pdfs/adida191207.pdf">Lecture 4: Cryptography and Voting</a>
+  </li>
+</ul>
+<h4>
+  Suggested Readings
+</h4>
+<ul>
+  <li>Week 1:
+    <ul>
+      <li>
+        <a href="http://www.gaudior.net/alma/johnny.pdf">"Why Johnny Can't Encrypt"</a>, Alma Whitten and J.D. Tygar.<br />
+        <i>An (un)usability study of PGP.</i>
+      </li>
+      <li>
+        <a href="http://groups.csail.mit.edu/cis/crypto/classes/6.857/papers/diffie-hellman.pdf">"New Directions in Cryptography"</a>, Whitfield Diffie and Martin Hellman.<br />
+        <i>A seminal paper in public-key cryptography. Recommended if interested in the underlying math of public-key crypto.</i>
+      </li>
+      <li>
+        <a href="http://people.csail.mit.edu/rivest/Rsapaper.pdf">"A Method for Obtaining Digital Signatures and Public-Key Cryptosystems"</a>, Ron Rivest, Adi Shamir, and Len Adleman.<br />
+        <i>The RSA paper. Recommended if interested in the underlying math of public-key crypto.</i>
+      </li>
+    </ul>
+  </li>
+  <li>Week 2:
+    <ul>
+      <li>
+        <a href="http://www.interhack.net/people/cmcurtin/snake-oil-faq.html">"Snake Oil FAQ"</a>, Matt Curtin; <a href="http://www.schneier.com/crypto-gram-9902.html#snakeoil">"Snake Oil"</a>, Bruce Schneier
+      </li>
+      <li>
+        <a href="http://crypto.stanford.edu/~dabo/papers/RSA-survey.pdf">"Twenty Years of Attacks on the RSA Cryptosystem"</a>, Dan Boneh<br />
+        <i>Good overview of many different attacks on RSA. Some technical details.</i>
+      </li>
+      <li>
+        <a href="http://www-cse.ucsd.edu/~mihir/papers/hmac.html">The HMAC Papers</a>, <a href="http://www-cse.ucsd.edu/users/mihir/papers/oaep.html">The OAEP Papers</a>, Mihir Bellare et. al.<br />
+        <i>These are technical papers and demonstrate some of the difficulty in composing crypto primitives.</i>
+      </li>
+      <li>
+        <a href="http://pdos.csail.mit.edu/papers/webauth:tr.pdf">"Dos and Don'ts of Client Authentication on the Web"</a>, Kevin Fu, Emil Sit, Kendra Smith, and Nick Feamster.<br />
+        <i>A great case study in practical web authentication. Recommended for engineers.</i>
+      </li>
+      <li>
+        <a href="http://www.imc.org/ietf-openpgp/mail-archive/msg14307.html">Bleichenbacher's RSA signature forgery</a>
+      </li>
+    </ul>
+  </li>
+  <li>Week 3:
+    <ul>
+      <li>
+        <a href="http://www.wisdom.weizmann.ac.il/~oded/zk-tut02.html">Zero Knowledge Tutorial</a>, Oded Goldreich<br />
+        <i>This is a good introduction, but quickly gets pretty technical.</i>
+      </li>
+      <li>
+        <a href="http://portal.acm.org/ft_gateway.cfm?id=802212&amp;type=pdf&amp;coll=GUIDE&amp;dl=GUIDE&amp;CFID=46530297&amp;CFTOKEN=46983323">Probabilistic encryption</a>, Goldwasser and Micali<br />
+        <i>This paper introduced the idea of semantic security</i>
+      </li>
+    </ul>
+  </li>
+  <li>Week 4:
+    <ul>
+      <li>
+        <a href="http://www.voterverifiable.com/article.pdf">Secret Ballot Receipts: True Voter-Verifiable Election</a>. David Chaum.
+      </li>
+      <li>
+        <a href="http://ben.adida.net/research/AdidaRivest-scratch-and-vote.pdf">Scratch and Vote</a>. Ben Adida and Ron Rivest.
+      </li>
+    </ul>
+  </li>
+</ul>
+<h4>
+  Exercises
+</h4>
+<ul>
+  <li>
+    <a href="http://docs.google.com/Doc?id=df47rdrq_30tjfct8">Exercise Set 1</a>
+  </li>
+  <li>
+    <a href="http://docs.google.com/Doc?id=df47rdrq_31gxwn7v">Exercise Set 2</a>
+  </li>
+  <li>
+    <a href="http://docs.google.com/Doc?id=df47rdrq_32dkb7hbf6">Exercise Set 3</a>
+  </li>
+</ul>
+<hr />
+
+    <div class="small">
+      email: <a href="mailto:sw@saweis.net">sw@saweis.net</a>
+      twitter: <a href="http://twitter.com/sweis">@sweis</a>
+      phone: <a href="tel:+1-415-578-5463">+1 (415) 578-5463</a>
+    </div>
+
+<script type="text/javascript">
+//<![CDATA[
+    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+//]]>
+</script><script type="text/javascript">
+//<![CDATA[
+    var pageTracker = _gat._getTracker("UA-448164-1");
+    pageTracker._initData();
+    pageTracker._trackPageview();
+//]]>
+</script>
+</body>
+</html>

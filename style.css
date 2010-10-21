@@ -1,0 +1,61 @@
+body  {
+  font-family: "Optima", "Verdana", "Arial", "Helvetica", "sans-serif";
+  font-size: 12pt;
+  color: #000000;
+  background: #FFF;
+  margin-left: 7%;
+  margin-right: 7%;
+}
+
+li {
+  margin-left: -10px;
+}
+
+h1, h2, h3, h4 { margin: 0; }
+
+h1 {
+  font-size: 175%;
+}
+
+h3 {
+  font-size: 110%;
+}
+
+h4 {
+  font-size: 100%;
+  margin-bottom: -10px;
+}
+
+.smallcaps {
+	font-variant: small-caps;
+}
+
+.small { 
+	text-align:justify;
+	font-size: 85%;
+	color: #888;
+	background-color: transparent;
+	float: left;
+}
+
+div#bio {
+  width: 69%
+}
+
+ul {
+  list-style-type: square;
+}
+
+div#contact {
+  float: right;
+  width: 30%;
+  border: 1px solid #EEE;
+}
+
+div#content {
+
+}
+
+div#projects {
+
+}
