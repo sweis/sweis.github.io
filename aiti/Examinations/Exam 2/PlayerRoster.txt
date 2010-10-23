@@ -1,0 +1,5 @@
+Al-Arabi,5000000,18 
+Santos,3000000,4
+UlinziStars,4000000,1
+HeusdenZolder,3000000,9
+LaGantoise,5000000,10

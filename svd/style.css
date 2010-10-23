@@ -1,0 +1,38 @@
+A{color: #0033FF; text-decoration:none}
+A:active{color: #FF9900;}
+A:visited { color:#0033FF } /* for visited links */
+A:hover{color: #FF9900;  }
+
+BODY {
+	font-family: Verdana, Helvetica, Arial, sans-serif;
+	color: #000000;
+	margin:1% 1% 1% 1%;
+	background-color:#0033FF;
+}
+
+#toppanel {
+	color: #000000;
+	background-color: #FFFFFF;
+	text-align: left;
+}
+
+#centerpanel {
+	background-color: #FFFFFF;
+	width:100%;
+	float: left;
+	margin:0% 0% 2% 0%;
+}
+
+
+.byline {
+	text-align: right;
+}
+.header {
+	color: #000000;
+	background: #CCCCFF;
+}
+
+TD { vertical-align: top; }
+H1, H2, H3, H4 { margin: 0% 0% 0% 0%; }
+P, PRE { margin: 2% 2% 2% 6%; } 
+TABLE { font-size:small; }
