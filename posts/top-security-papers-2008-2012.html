@@ -1,113 +1,244 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<title>Top Academic Security &amp; Crypto Papers from 2008 through 2013</title>
-<meta name="keywords"
-  content="security, privacy, cryptography, crypto, ccs, usenix, eurocrypt " />
-<meta name="description" content="A listing of top academic security papers from 2008 through 2013 based on citation" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="verify-v1" content="dYmsZ+idh69vw24n1Ij9SgYbwWAHelw1YcYzfEUzFz8=" />
-<link rel="stylesheet" href="../style.css" type="text/css" />
-</head>
-<body>
-	<h2>Top Academic Security &amp; Crypto Papers from 2008 through 2013</h2>
-	<address><a href="http://saweis.net">Home</a></address>
-	<hr/>
-<p>These security and crytography papers are among the most cited between the years 2008 and 2013. Source data is from <a href="http://scholar.google.com/citations?view_op=top_venues&hl=en&vq=eng_computersecuritycryptography">Google Scholar Metrics</a> and <a href="http://academic.research.microsoft.com/RankList?entitytype=1&topdomainid=2&subdomainid=2&last=5">Microsoft Academic Search</a>. The papers are roughly in the order of citations per year:</p>
-<ol>
-<li><a href="http://crypto.stanford.edu/craig/craig-thesis.pdf">A Fully Homomorphic Encryption Scheme</a><br/>
-C Gentry<br/>
-PhD Thesis, 2009<br/>
-<p>
-	Craig Gentry presented the first fully homomorphic encryption scheme, which allows both multiplication and addiition operations between encrypted data. Partially homomorphic encryption schemes that exclusively allowed one operation or the other were well known, but it was a long outstanding problem whether a cryptosystem could support both operations.
-</p>
-</li>
-	<li><a href="http://www.cs.cornell.edu/courses/cs6460/2011sp/papers/cloudsec-ccs09.pdf">Hey, you, get off of my cloud: exploring information leakage in third-party compute cloud</a><br/>
-T Ristenpart, E Tromer, H Shacham, S Savage<br/>
-CCS, 2009<br/>
-<p>This paper discusses how to target a VM running on an infrastructure as a service provider (namely EC2), and place another VM on the same host. It then shows how a co-tenant VM can then be used to mount cross-VM side-channel attacks, which extract information from the target VM.</p>
-	</li>
-	<li><a href="http://www.cs.berkeley.edu/~afelt/android_permissions.pdf">Android Permissions Demystified</a><br/>
-	AP Felt, E Chin, S Hanna, D Song, D Wagner<br/>
-	CCS, 2011<br/>
-	<p>This paper presents a tool, Stowaway, which can analyze Android apps and determine which API calls they are using. Stowaway then determines whether apps are overprivileged. The paper found that was the case for a third out of a sample of 940 apps.</p>
-	</li>
-	<li><a href="http://eprint.iacr.org/2008/290.pdf">Ciphertext-Policy Attribute-Based Encryption: An Expressive, Efficient, and Provably Secure Realization</a><br/>
-	B Waters<br/>
-	Public Key Cryptography, 2011<br/>
-	<p>This paper presents a more efficient construction of an Attribute-Based Encryption (ABE) scheme. ABE schemes essentially allow an encryptor to specify how to share data by expressing an access control policy in the algorithm itself.</p>
-	</li>		
-	<li><a href="http://www.enck.org/pubs/enck-sec11.pdf">A Study of Android Application Security</a><br/>
-	W Enck, D Octeau, P McDaniel, S Chaudhuri<br/>
-	Usenix Security 2011<br/>
-	<p>This paper presents the <i>ded</i> decompiler, which recovers Android app source code from the installation image. They performed static analysis on 21 million lines of recovered code, yet found no evidence of malware or exploitable vulnerabilities.</p>
-	</li>
-	<li><a href="http://eprint.iacr.org/2009/616.pdf">Fully homomorphic encryption over the integers</a><br/>
-	M van Dijk, C Gentry, S Halevi, V Vaikuntanathan<br/>
-	Eurocrypt 2010<br/>
-	<p>This paper presents a "somewhat homomorphic" encryption scheme using basic modular arithmetic, then uses Craig Gentry's techniques to convert it to a fully homomorphic scheme. This is conceptually simpler than Gentry's original fully homomorphic scheme.</p>
-	</li>
-	<li><a href="https://citp.princeton.edu/research/memory/">Lest We Remember: Cold Boot Attacks on Encryption Keys</a><br/>
-	JA Halderman, SD Schoen, N Heninger, W Clarkson, W Paul, JA Calandrino, AJ Feldman, J Applebaum, E Felton<br/>
-	Usenix Security, 2008<br/>
-	<p>The "cold boot" paper: The authors demonstrate how to recover data remnants from frozen DRAM modules. They then analyze the recovered contents to extract encryption keys and circumvent popular disk encryption systems.</p>
-	</li>
-	<li><a href="https://www.usenix.org/legacy/event/sec08/tech/full_papers/gu/gu.pdf">BotMiner: Clustering Analysis of Network Traffic for Protocol-and Structure-Independent Botnet Detection.</a><br/>
-	G Gu, R Perdisci, J Zhang, W Lee<br/>
-	Usenix Security, 2008<br/>
-	<p>This paper presents a botnet detection framework that is independent of a specific botnet command &amp; control protocol or structure. The authors implemented BotMinder and were able to successfully detect traces of live botnets.</p>
-	</li>
-	<li><a href="http://www.cs.utexas.edu/~shmat/shmat_oak08netflix.pdf">Robust De-anonymization of Large Sparse Datasets</a> and <a href="http://www.cs.utexas.edu/~shmat/shmat_oak09.pdf">De-anonymizing Social Networks</a> <br/>
-	A Narayanan, V Shmatikov<br/>
-	IEEE Security &amp; Privacy 2008 and 2009<br/>
-	<p>Both of these papers cover de-anonymizing large sets of supposedly anonymized data. The first paper de-anonymizes the the Netflix Prize data set while the second paper links accounts between Twitter and Flickr.</p>
-	</li>
-	<li><a href="http://eprint.iacr.org/2010/110.pdf">Fully Secure Functional Encryption: Attribute-based Encryption and (Hierarchical) Inner Product Encryption</a> <br/>
-	A Lewko, T Okamoto, A Sahai, K Takashima, B Waters<br/>
-	Eurocrypt, 2010<br/>
-	<p>This paper gives two constructions of secure functional encryption schemes: one is an attribute-based encryption scheme and the other is a predicate encryption scheme.</p>
-	</li>
-	<li><a href="http://www.rsa.com/rsalabs/hail/Hail.pdf">HAIL: a high-availability and integrity layer for cloud storage</a> <br/>
-	KD Bowers, A Juels, A Oprea<br/>
-	CCS, 2009<br/>
-	<p>This paper presents a distributed cryptographic system that allows a set of servers to prove to a client that a stored file is intact and retrievable.</p>
-	</li>
-	<li><a href="http://markus-jakobsson.com/papers/jakobsson-ccsw09.pdf">Controlling Data in the Cloud: Outsourcing Computation without Outsourcing Control</a> <br/>
-	R Chow, P Golle, M Jakobsson, E Shi, J Staddon, R Masuoka, J Molina<br/>
-	CCSW, 2009<br/>
-	<p>This paper reviews the state of data security when outsourcing computation in the cloud. The authors proposes a security model based Trusted Computing and suggest the use of some technologies like searchable encryption.</p>
-	</li>
-	<li><a href="http://eprint.iacr.org/2007/432">Trapdoors for Hard Lattices and New Cryptographic Constructions</a> <br/>
-	C Gentry, C Peikert, V Vaikuntanathan<br/>
-	STOC, 2008<br/>
-	<p>This paper discusses how to use standard lattice problems as an underlying building block to construct cryptographic trapdoor functions.</p>
-	</li>
-	<li><a href="http://seclab.cs.ucsb.edu/media/uploads/papers/torpig.pdf">Your Botnet is My Botnet: Analysis of a Botnet Takeover</a> <br/>
-	B Stone-Gross, M Cova, L Cavallaro, B Gilbert, M Szydlowski, R Kemmerer, C Kruegel, G Vigna<br/>
-	CCS, 2009<br/>
-	<p>This paper describes the authors attempt to takeover the Torpig botnet and observe its operations for a 10 day period.</p>
-	</li>
-	
-	<li><a href="http://eprint.iacr.org/2009/571">Fully homomorphic encryption with relatively small key and ciphertext sizes</a> <br/>
-	NP Smart, F Vercauteren<br/>
-	Public Key Crypto, 2010<br/>
-	<p>This paper presents a version of Gentry's fully homomorphic encryption scheme with a smaller message expansion and key size.</p>
-	</li>
-</ol>
+  <meta name="generator" content=
+  "HTML Tidy for Mac OS X (vers 31 October 2006 - Apple Inc. build 15.12), see www.w3.org" />
 
-<script type="text/javascript">
+  <title>Top Academic Security &amp; Crypto Papers from 2008 through
+  2013</title>
+  <meta name="keywords" content=
+  "security, privacy, cryptography, crypto, ccs, usenix, eurocrypt" />
+  <meta name="description" content=
+  "A listing of top academic security papers from 2008 through 2013 based on citation" />
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+  <meta name="verify-v1" content=
+  "dYmsZ+idh69vw24n1Ij9SgYbwWAHelw1YcYzfEUzFz8=" />
+  <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css" />
+</head>
+
+<body>
+  <div class="container">
+    <div class="page-header">
+      <h1>Top Academic Security &amp; Crypto Papers <small>from 2008 through
+      2013</small></h1>
+    </div>
+
+    <div class="lead">
+      <p>These security and cryptography papers are among the most cited
+      between the years 2008 and 2013. Source data is from <a href=
+      "http://scholar.google.com/citations?view_op=top_venues&amp;hl=en&amp;vq=eng_computersecuritycryptography">
+      Google Scholar Metrics</a> and <a href=
+      "http://academic.research.microsoft.com/RankList?entitytype=1&amp;topdomainid=2&amp;subdomainid=2&amp;last=5">
+      Microsoft Academic Search</a>. The papers are roughly in the order of
+      citations per year:</p>
+
+      <ol>
+        <li>
+          <a href="http://crypto.stanford.edu/craig/craig-thesis.pdf">A Fully
+          Homomorphic Encryption Scheme</a><br />
+          C Gentry<br />
+          PhD Thesis, 2009<br />
+
+          <p>Craig Gentry presented the first fully homomorphic encryption
+          scheme, which allows both multiplication and addiition operations
+          between encrypted data. Partially homomorphic encryption schemes that
+          exclusively allowed one operation or the other were well known, but
+          it was a long outstanding problem whether a cryptosystem could
+          support both operations.</p>
+        </li>
+
+        <li>
+          <a href=
+          "http://www.cs.cornell.edu/courses/cs6460/2011sp/papers/cloudsec-ccs09.pdf">
+          Hey, you, get off of my cloud: exploring information leakage in
+          third-party compute cloud</a><br />
+          T Ristenpart, E Tromer, H Shacham, S Savage<br />
+          CCS, 2009<br />
+
+          <p>This paper discusses how to target a VM running on an
+          infrastructure as a service provider (namely EC2), and place another
+          VM on the same host. It then shows how a co-tenant VM can then be
+          used to mount cross-VM side-channel attacks, which extract
+          information from the target VM.</p>
+        </li>
+
+        <li>
+          <a href=
+          "http://www.cs.berkeley.edu/~afelt/android_permissions.pdf">Android
+          Permissions Demystified</a><br />
+          AP Felt, E Chin, S Hanna, D Song, D Wagner<br />
+          CCS, 2011<br />
+
+          <p>This paper presents a tool, Stowaway, which can analyze Android
+          apps and determine which API calls they are using. Stowaway then
+          determines whether apps are overprivileged. The paper found that was
+          the case for a third out of a sample of 940 apps.</p>
+        </li>
+
+        <li>
+          <a href="http://eprint.iacr.org/2008/290.pdf">Ciphertext-Policy
+          Attribute-Based Encryption: An Expressive, Efficient, and Provably
+          Secure Realization</a><br />
+          B Waters<br />
+          Public Key Cryptography, 2011<br />
+
+          <p>This paper presents a more efficient construction of an
+          Attribute-Based Encryption (ABE) scheme. ABE schemes essentially
+          allow an encryptor to specify how to share data by expressing an
+          access control policy in the algorithm itself.</p>
+        </li>
+
+        <li>
+          <a href="http://www.enck.org/pubs/enck-sec11.pdf">A Study of Android
+          Application Security</a><br />
+          W Enck, D Octeau, P McDaniel, S Chaudhuri<br />
+          Usenix Security 2011<br />
+
+          <p>This paper presents the <i>ded</i> decompiler, which recovers
+          Android app source code from the installation image. They performed
+          static analysis on 21 million lines of recovered code, yet found no
+          evidence of malware or exploitable vulnerabilities.</p>
+        </li>
+
+        <li>
+          <a href="http://eprint.iacr.org/2009/616.pdf">Fully homomorphic
+          encryption over the integers</a><br />
+          M van Dijk, C Gentry, S Halevi, V Vaikuntanathan<br />
+          Eurocrypt 2010<br />
+
+          <p>This paper presents a "somewhat homomorphic" encryption scheme
+          using basic modular arithmetic, then uses Craig Gentry's techniques
+          to convert it to a fully homomorphic scheme. This is conceptually
+          simpler than Gentry's original fully homomorphic scheme.</p>
+        </li>
+
+        <li>
+          <a href="https://citp.princeton.edu/research/memory/">Lest We
+          Remember: Cold Boot Attacks on Encryption Keys</a><br />
+          JA Halderman, SD Schoen, N Heninger, W Clarkson, W Paul, JA
+          Calandrino, AJ Feldman, J Applebaum, E Felton<br />
+          Usenix Security, 2008<br />
+
+          <p>The "cold boot" paper: The authors demonstrate how to recover data
+          remnants from frozen DRAM modules. They then analyze the recovered
+          contents to extract encryption keys and circumvent popular disk
+          encryption systems.</p>
+        </li>
+
+        <li>
+          <a href=
+          "https://www.usenix.org/legacy/event/sec08/tech/full_papers/gu/gu.pdf">
+          BotMiner: Clustering Analysis of Network Traffic for Protocol-and
+          Structure-Independent Botnet Detection.</a><br />
+          G Gu, R Perdisci, J Zhang, W Lee<br />
+          Usenix Security, 2008<br />
+
+          <p>This paper presents a botnet detection framework that is
+          independent of a specific botnet command &amp; control protocol or
+          structure. The authors implemented BotMinder and were able to
+          successfully detect traces of live botnets.</p>
+        </li>
+
+        <li>
+          <a href=
+          "http://www.cs.utexas.edu/~shmat/shmat_oak08netflix.pdf">Robust
+          De-anonymization of Large Sparse Datasets</a> and <a href=
+          "http://www.cs.utexas.edu/~shmat/shmat_oak09.pdf">De-anonymizing
+          Social Networks</a><br />
+          A Narayanan, V Shmatikov<br />
+          IEEE Security &amp; Privacy 2008 and 2009<br />
+
+          <p>Both of these papers cover de-anonymizing large sets of supposedly
+          anonymized data. The first paper de-anonymizes the the Netflix Prize
+          data set while the second paper links accounts between Twitter and
+          Flickr.</p>
+        </li>
+
+        <li>
+          <a href="http://eprint.iacr.org/2010/110.pdf">Fully Secure Functional
+          Encryption: Attribute-based Encryption and (Hierarchical) Inner
+          Product Encryption</a><br />
+          A Lewko, T Okamoto, A Sahai, K Takashima, B Waters<br />
+          Eurocrypt, 2010<br />
+
+          <p>This paper gives two constructions of secure functional encryption
+          schemes: one is an attribute-based encryption scheme and the other is
+          a predicate encryption scheme.</p>
+        </li>
+
+        <li>
+          <a href="http://www.rsa.com/rsalabs/hail/Hail.pdf">HAIL: a
+          high-availability and integrity layer for cloud storage</a><br />
+          KD Bowers, A Juels, A Oprea<br />
+          CCS, 2009<br />
+
+          <p>This paper presents a distributed cryptographic system that allows
+          a set of servers to prove to a client that a stored file is intact
+          and retrievable.</p>
+        </li>
+
+        <li>
+          <a href=
+          "http://markus-jakobsson.com/papers/jakobsson-ccsw09.pdf">Controlling
+          Data in the Cloud: Outsourcing Computation without Outsourcing
+          Control</a><br />
+          R Chow, P Golle, M Jakobsson, E Shi, J Staddon, R Masuoka, J
+          Molina<br />
+          CCSW, 2009<br />
+
+          <p>This paper reviews the state of data security when outsourcing
+          computation in the cloud. The authors proposes a security model based
+          Trusted Computing and suggest the use of some technologies like
+          searchable encryption.</p>
+        </li>
+
+        <li>
+          <a href="http://eprint.iacr.org/2007/432">Trapdoors for Hard Lattices
+          and New Cryptographic Constructions</a><br />
+          C Gentry, C Peikert, V Vaikuntanathan<br />
+          STOC, 2008<br />
+
+          <p>This paper discusses how to use standard lattice problems as an
+          underlying building block to construct cryptographic trapdoor
+          functions.</p>
+        </li>
+
+        <li>
+          <a href=
+          "http://seclab.cs.ucsb.edu/media/uploads/papers/torpig.pdf">Your
+          Botnet is My Botnet: Analysis of a Botnet Takeover</a><br />
+          B Stone-Gross, M Cova, L Cavallaro, B Gilbert, M Szydlowski, R
+          Kemmerer, C Kruegel, G Vigna<br />
+          CCS, 2009<br />
+
+          <p>This paper describes the authors attempt to takeover the Torpig
+          botnet and observe its operations for a 10 day period.</p>
+        </li>
+
+        <li>
+          <a href="http://eprint.iacr.org/2009/571">Fully homomorphic
+          encryption with relatively small key and ciphertext sizes</a><br />
+          NP Smart, F Vercauteren<br />
+          Public Key Crypto, 2010<br />
+
+          <p>This paper presents a version of Gentry's fully homomorphic
+          encryption scheme with a smaller message expansion and key size.</p>
+        </li>
+      </ol>
+    </div>
+  </div><script type="text/javascript">
 //<![CDATA[
     var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
     document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
     //]]>
-    </script>
-<script type="text/javascript">
+  </script><script type="text/javascript">
 //<![CDATA[
     var pageTracker = _gat._getTracker("UA-448164-1");
     pageTracker._initData();
     pageTracker._trackPageview();
     //]]>
-    </script>
+  </script>
 </body>
 </html>

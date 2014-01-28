@@ -1,160 +1,204 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-  <head>
-    <title>
-      Stephen A. Weis - Cryptographer and Security Software Engineer
-    </title>
-    <meta name="keywords" content="HB+, HB+ authentication, authentication protocol, low-cost authentication, Hopper, Blum" />
-    <meta name="description" content="Information about the HB+ Authentication protocol" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="verify-v1" content="dYmsZ+idh69vw24n1Ij9SgYbwWAHelw1YcYzfEUzFz8=" />
-    <link rel="stylesheet" href="style.css" type="text/css" />
-  </head>
-  
+<head>
+  <title>Stephen A. Weis - Cryptographer and Security Software Engineer</title>
+  <meta name="keywords" content=
+  "HB+, HB+ authentication, authentication protocol, low-cost authentication, Hopper, Blum" />
+  <meta name="description" content=
+  "Information about the HB+ Authentication protocol" />
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+  <meta name="verify-v1" content=
+  "dYmsZ+idh69vw24n1Ij9SgYbwWAHelw1YcYzfEUzFz8=" />
+  <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
+</head>
+
 <body>
-<h1>
-  Stephen A. Weis
-</h1>
-<address>
-  <a href="http://saweis.net">saweis.net</a>
-</address>
-<hr />
-<h3>
-  <a name="hbplus" id="hbplus"></a> HB+ Authentication
-</h3>
-<p>
+  <div class="container">
+    <div class="page-header">
+      <h1><a href="index.html">Stephen A. Weis</a> <small>Cryptographer and
+      Entrepreneur</small></h1>
+    </div>
 
-  HB+ is a secure authentication protocol that is extremeley simple to
-  implement in hardware. Its low implementation cost could make HB+
-  useful in preventing "skimming", counterfeiting, or cloning of cheap
-  pervasive devices like RFID tags. HB+ was developed with <a
-  href="http://www.rsasecurity.com/rsalabs/node.asp?id=2029">Ari
-  Juels</a> of RSA Security and was presented at <a
-  href="http://www.iacr.org/conferences/crypto2005/">Crypto'05</a>. HB+
-  builds on a protocol for human-to-computer authentication originally
-  developed by <a href="http://www-users.cs.umn.edu/~hopper/">Nick
-  Hopper</a> and <a href="http://www.cs.cmu.edu/~mblum/">Manuel
-  Blum</a> (HB).
+    <div class="lead">
+      <h3><a name="hbplus" id="hbplus"></a> HB+ Authentication</h3>
 
-</p>
-<p>
+      <p>HB+ is a secure authentication protocol that is extremeley simple to
+      implement in hardware. Its low implementation cost could make HB+ useful
+      in preventing "skimming", counterfeiting, or cloning of cheap pervasive
+      devices like RFID tags. HB+ was developed with <a href=
+      "http://www.rsasecurity.com/rsalabs/node.asp?id=2029">Ari Juels</a> of
+      RSA Security and was presented at <a href=
+      "http://www.iacr.org/conferences/crypto2005/">Crypto'05</a>. HB+ builds
+      on a protocol for human-to-computer authentication originally developed
+      by <a href="http://www-users.cs.umn.edu/~hopper/">Nick Hopper</a> and
+      <a href="http://www.cs.cmu.edu/~mblum/">Manuel Blum</a> (HB).</p>
 
-  Here are <a  href="pdfs/lpn-slides.pdf">presentation
-  slides</a> from Crypto'05 and another <a
-  href="http://www.cs.stevens.edu/~klivings/protocol.html">page about
-  HB/HB+</a>.
+      <p>Here are <a href="pdfs/lpn-slides.pdf">presentation slides</a> from
+      Crypto'05 and another <a href=
+      "http://www.cs.stevens.edu/~klivings/protocol.html">page about
+      HB/HB+</a>.</p>
 
-</p>
-<h3>
-  HB+ Bibliography
-</h3>
-<ul>
-  <li>
-    <span ><a href="http://eprint.iacr.org/2009/044">
-"Un-Trusted-HB: Security Vulnerabilities of Trusted-HB"</a></span><br />
-    Dmitry Frumkin and Adi Shamir<br />
-    <br />
-    <i>Synopsis:</i> Frumkin and Shamir show attacks against Trusted-HB<br />
-    <br />
-  </li>
+      <h3>HB+ Bibliography</h3>
 
+      <ul>
+        <li><span><a href="http://eprint.iacr.org/2009/044">"Un-Trusted-HB:
+        Security Vulnerabilities of Trusted-HB"</a></span><br />
+        Dmitry Frumkin and Adi Shamir<br />
+        <br />
+        <i>Synopsis:</i> Frumkin and Shamir show attacks against
+        Trusted-HB<br />
+        <br /></li>
 
-  <li>
-    <span ><a href="http://eprint.iacr.org/2008/028.pdf">"HB#: Increasing the Security and Efficiency of HB+"</a></span><br />
-    <a href="http://www.informatik.uni-trier.de/~ley/db/indices/a-tree/g/Gilbert:Henri.html">Henri Gilbert</a>, <a href="http://crypto.rd.francetelecom.com/people/Robshaw/">Matthew J.B. Robshaw</a> and <a href="http://yannickseurin.free.fr/">Yannick Seurin</a><br />
-    <a href="http://www.iacr.org/conferences/eurocrypt2008/Default.aspx">EuroCrypt 2008</a><br />
-    <br />
-    <i>Synopsis:</i> Gilbert, Robshaw, and Seurin offer a variant of HB+ named HB# that is resistant to man-in-the-middle attacks.<br />
-    <br />
-  </li>
-  <li>
-    <span ><a href="http://www.springerlink.com/content/196791v64p37n130/">"PUF-HB: A Tamper-Resilient HB Based Authentication Protocol"</a></span><br />
-    Ghaith Hammouri and <a href="http://ece.wpi.edu/~sunar/">Berk Sunar</a><br />
-    <a href="http://acns2008.cs.columbia.edu/">ACNS 2008</a><br />
-    <br />
-    <i>Synopsis:</i> Hammouri and Sunar make use of physically unclonable functions (PUFs) to make a tamper-resilient HB variant.<br />
-    <br />
-  </li>
-  <li>
-    <span ><a href="http://arxiv.org/abs/0802.0603v1">"Trusted-HB: a low-cost version of HB+ secure against Man-in-The-Middle attacks"</a></span><br />
-    <a href="http://bringer.univ-tln.fr/">Julien Bringer</a> and Herve Chabanne<br />
-    <br />
-    <i>Synopsis:</i> Bringer and Chabanne offer a new HB+ variant that makes use of Krawczyk's hash-based authentication schemes using Topelitz-based LFSR constructions, and is resistant to man-in-the-middle attacks.<br />
-    <br />
-  </li>
-  <li>
-    <span ><a href="http://eprint.iacr.org/2006/326.pdf">"Analyzing the HB and HB+ Protocols in the ``Large Error'' Case"</a></span><br />
-    <a href="http://www.cs.umd.edu/~jkatz/">Jonathan Katz</a> and <a href="http://theory.lcs.mit.edu/~asmith/">Adam Smtih</a><br />
-    <a href="http://eprint.iacr.org/2006/326">Eprint Archives</a><br />
-    <br />
-    <i>Synopsis:</i> Katz and Smith show how to extend proofs of HB+ security to the general case where the noise parameter $\epsilon &lt; 1/2$. Previous results had shown HB+ to be secure only when $\epsilon &lt; 1/4$.<br />
-    <br />
-  </li>
-  <li>
-    <span >"An attack of HB+ in the detection-based model"</span><br />
-    Eric Levieil and <a href="http://www.di.ens.fr/~fouque/">Pierre-Alain Fouque</a><br />
-    <a href="http://www.dia.unisa.it/conferences/SCN06/">Security and Cryptography for Networks</a> - September 2006<br />
-    <br />
-    <i>Synopsis:</i> This paper offers an LPN algorithm with better constant factors than the Blum, Kalai, Wasserman <a href="http://portal.acm.org/citation.cfm?coll=GUIDE&amp;dl=GUIDE&amp;id=335355">algorithm</a>. The steps to brute-force attack an HB+ instance are decreased and the lengths of secure HB+ keys will increase proportionally. See <a href="pdfs/weis-phd-thesis.pdf">Section 2.8 of my PhD thesis</a> for a discussion of HB+ key lengths.<br />
-    <br />
-  </li>
-  <li>
-    <span >"HB++: a Lightweight Authentication Protocol Secure against Some Attacks"</span><br />
-    <a href="http://bringer.univ-tln.fr/">Julien Bringer</a> and Herve Chabanne and Emmanuelle Dottax,<br />
-    Security, Privacy and Trust in Pervasive and Ubiquitous Computing - SecPerU, June 2006<br />
-    <br />
-    <i>Synopsis:</i> This paper presents a new HB+ variant that is claimed to be secure against man-in-the-middle attacks, such as those described by Gilbert, Robshaw, and Sibert. HB++ relies on additional secret key material and universal hash functions to detect man-in-the-middle attacks.<br />
-    <br />
-  </li>
-  <li>
-    <span ><a href="http://eprint.iacr.org/2005/461.pdf">"Parallel and Concurrent Security of the HB and HB+ Protocols"</a></span><br />
-    <a href="http://www.cs.umd.edu/~jkatz/">Jonathan Katz</a> and <a href="http://www.cs.umd.edu/~sunny/">Ji Sun Shin</a><br />
-    <a href="http://www.iacr.org/conferences/eurocrypt2006/">Advances in Cryptology -- EUROCRYPT</a>, 2006<br />
-    <br />
-    <i>Synopsis:</i> This paper answers an open question from the original HB+ paper by showing that HB+ is indeed secure under concurrent and parallel composition. This greatly reduces the round complexity of HB+ to a constant three rounds for any security parameter.<br />
-    <br />
-  </li>
-  <li>
-    <span ><a href="http://eprint.iacr.org/2005/237.pdf">"An Active Attack Against HB+ - A Provably Secure Lightweight Authentication Protocol"</a></span><br />
-    Henri Gilbert and <a href="http://www.isg.rhul.ac.uk/~mrobshaw/">Matt Robshaw</a> and Herve Sibert, 2005<br />
-    <a href="http://ieeexplore.ieee.org/xpl/tocresult.jsp?isYear=2005&amp;isnumber=32548&amp;Submit32=Go+To+Issue">IEE Electronic Letters 41, 21</a>, pgs 1169--1170, 2005<br />
-    <br />
-    <i>Synopsis:</i> This paper presents a man-in-the-middle attack against HB+. This attack requires many failed authentications to extract HB+ keys. It would not be feasible in a <i>detection model</i> where many failed authentications would raise an alarm.<br />
-    <br />
-  </li>
-  <li>
-    <span ><a href="pdfs/lpn-paper.pdf">"Authenticating Pervasive Devices with Human Protocols"</a></span><br />
-    <a href="http://www.rsasecurity.com/rsalabs/node.asp?id=2029">Ari Juels</a> and Stephen A. Weis<br />
-    <a href="http://www.iacr.org/conferences/crypto2005/">Advances in Cryptology -- CRYPTO 2005</a>, <a href="pdfs/lpn-slides.pdf">Presentation Slides</a><br />
-    LNCS, volume 3621, pages 293-308, 2005<br />
-    <br />
-    <i>Synopsis:</i> This is the original HB+ paper.<br />
-    <br />
-  </li>
-  <li>
-    <span ><a href="http://citeseer.ist.psu.edu/hopper01secure.html">"Secure Human Identification Protocols"</a>,</span><br />
-    <a href="http://www-users.cs.umn.edu/~hopper/">Nicholas J. Hopper</a> and <a href="http://www.cs.cmu.edu/~mblum/">Manuel Blum</a>,<br />
-    <a href="http://www.iacr.org/conferences/asiacrypt2001/mirror/">Advances in Cryptology - ASIACRYPT 2001</a>, LNCS, volume 2248, pages 52-66, 2001<br />
-    <br />
-    <i>Synopsis:</i> This is the original paper that presents the HB protocol, which HB+ is based on. HB is not secure against passive adversaries, although two variants presented in this paper and based on other assumptions are secure against active adversaries.
-  </li>
-</ul>
-<hr />
+        <li><span><a href="http://eprint.iacr.org/2008/028.pdf">"HB#:
+        Increasing the Security and Efficiency of HB+"</a></span><br />
+        <a href=
+        "http://www.informatik.uni-trier.de/~ley/db/indices/a-tree/g/Gilbert:Henri.html">
+        Henri Gilbert</a>, <a href=
+        "http://crypto.rd.francetelecom.com/people/Robshaw/">Matthew J.B.
+        Robshaw</a> and <a href="http://yannickseurin.free.fr/">Yannick
+        Seurin</a><br />
+        <a href=
+        "http://www.iacr.org/conferences/eurocrypt2008/Default.aspx">EuroCrypt
+        2008</a><br />
+        <br />
+        <i>Synopsis:</i> Gilbert, Robshaw, and Seurin offer a variant of HB+
+        named HB# that is resistant to man-in-the-middle attacks.<br />
+        <br /></li>
 
-<script type="text/javascript">
+        <li><span><a href=
+        "http://www.springerlink.com/content/196791v64p37n130/">"PUF-HB: A
+        Tamper-Resilient HB Based Authentication Protocol"</a></span><br />
+        Ghaith Hammouri and <a href="http://ece.wpi.edu/~sunar/">Berk
+        Sunar</a><br />
+        <a href="http://acns2008.cs.columbia.edu/">ACNS 2008</a><br />
+        <br />
+        <i>Synopsis:</i> Hammouri and Sunar make use of physically unclonable
+        functions (PUFs) to make a tamper-resilient HB variant.<br />
+        <br /></li>
+
+        <li><span><a href="http://arxiv.org/abs/0802.0603v1">"Trusted-HB: a
+        low-cost version of HB+ secure against Man-in-The-Middle
+        attacks"</a></span><br />
+        <a href="http://bringer.univ-tln.fr/">Julien Bringer</a> and Herve
+        Chabanne<br />
+        <br />
+        <i>Synopsis:</i> Bringer and Chabanne offer a new HB+ variant that
+        makes use of Krawczyk's hash-based authentication schemes using
+        Topelitz-based LFSR constructions, and is resistant to
+        man-in-the-middle attacks.<br />
+        <br /></li>
+
+        <li><span><a href="http://eprint.iacr.org/2006/326.pdf">"Analyzing the
+        HB and HB+ Protocols in the ``Large Error'' Case"</a></span><br />
+        <a href="http://www.cs.umd.edu/~jkatz/">Jonathan Katz</a> and <a href=
+        "http://theory.lcs.mit.edu/~asmith/">Adam Smtih</a><br />
+        <a href="http://eprint.iacr.org/2006/326">Eprint Archives</a><br />
+        <br />
+        <i>Synopsis:</i> Katz and Smith show how to extend proofs of HB+
+        security to the general case where the noise parameter $\epsilon &lt;
+        1/2$. Previous results had shown HB+ to be secure only when $\epsilon
+        &lt; 1/4$.<br />
+        <br /></li>
+
+        <li><span>"An attack of HB+ in the detection-based model"</span><br />
+        Eric Levieil and <a href="http://www.di.ens.fr/~fouque/">Pierre-Alain
+        Fouque</a><br />
+        <a href="http://www.dia.unisa.it/conferences/SCN06/">Security and
+        Cryptography for Networks</a> - September 2006<br />
+        <br />
+        <i>Synopsis:</i> This paper offers an LPN algorithm with better
+        constant factors than the Blum, Kalai, Wasserman <a href=
+        "http://portal.acm.org/citation.cfm?coll=GUIDE&amp;dl=GUIDE&amp;id=335355">
+        algorithm</a>. The steps to brute-force attack an HB+ instance are
+        decreased and the lengths of secure HB+ keys will increase
+        proportionally. See <a href="pdfs/weis-phd-thesis.pdf">Section 2.8 of
+        my PhD thesis</a> for a discussion of HB+ key lengths.<br />
+        <br /></li>
+
+        <li><span>"HB++: a Lightweight Authentication Protocol Secure against
+        Some Attacks"</span><br />
+        <a href="http://bringer.univ-tln.fr/">Julien Bringer</a> and Herve
+        Chabanne and Emmanuelle Dottax,<br />
+        Security, Privacy and Trust in Pervasive and Ubiquitous Computing -
+        SecPerU, June 2006<br />
+        <br />
+        <i>Synopsis:</i> This paper presents a new HB+ variant that is claimed
+        to be secure against man-in-the-middle attacks, such as those described
+        by Gilbert, Robshaw, and Sibert. HB++ relies on additional secret key
+        material and universal hash functions to detect man-in-the-middle
+        attacks.<br />
+        <br /></li>
+
+        <li><span><a href="http://eprint.iacr.org/2005/461.pdf">"Parallel and
+        Concurrent Security of the HB and HB+ Protocols"</a></span><br />
+        <a href="http://www.cs.umd.edu/~jkatz/">Jonathan Katz</a> and <a href=
+        "http://www.cs.umd.edu/~sunny/">Ji Sun Shin</a><br />
+        <a href="http://www.iacr.org/conferences/eurocrypt2006/">Advances in
+        Cryptology -- EUROCRYPT</a>, 2006<br />
+        <br />
+        <i>Synopsis:</i> This paper answers an open question from the original
+        HB+ paper by showing that HB+ is indeed secure under concurrent and
+        parallel composition. This greatly reduces the round complexity of HB+
+        to a constant three rounds for any security parameter.<br />
+        <br /></li>
+
+        <li><span><a href="http://eprint.iacr.org/2005/237.pdf">"An Active
+        Attack Against HB+ - A Provably Secure Lightweight Authentication
+        Protocol"</a></span><br />
+        Henri Gilbert and <a href="http://www.isg.rhul.ac.uk/~mrobshaw/">Matt
+        Robshaw</a> and Herve Sibert, 2005<br />
+        <a href=
+        "http://ieeexplore.ieee.org/xpl/tocresult.jsp?isYear=2005&amp;isnumber=32548&amp;Submit32=Go+To+Issue">
+        IEE Electronic Letters 41, 21</a>, pgs 1169--1170, 2005<br />
+        <br />
+        <i>Synopsis:</i> This paper presents a man-in-the-middle attack against
+        HB+. This attack requires many failed authentications to extract HB+
+        keys. It would not be feasible in a <i>detection model</i> where many
+        failed authentications would raise an alarm.<br />
+        <br /></li>
+
+        <li><span><a href="pdfs/lpn-paper.pdf">"Authenticating Pervasive
+        Devices with Human Protocols"</a></span><br />
+        <a href="http://www.rsasecurity.com/rsalabs/node.asp?id=2029">Ari
+        Juels</a> and Stephen A. Weis<br />
+        <a href="http://www.iacr.org/conferences/crypto2005/">Advances in
+        Cryptology -- CRYPTO 2005</a>, <a href=
+        "pdfs/lpn-slides.pdf">Presentation Slides</a><br />
+        LNCS, volume 3621, pages 293-308, 2005<br />
+        <br />
+        <i>Synopsis:</i> This is the original HB+ paper.<br />
+        <br /></li>
+
+        <li><span><a href=
+        "http://citeseer.ist.psu.edu/hopper01secure.html">"Secure Human
+        Identification Protocols"</a>,</span><br />
+        <a href="http://www-users.cs.umn.edu/~hopper/">Nicholas J. Hopper</a>
+        and <a href="http://www.cs.cmu.edu/~mblum/">Manuel Blum</a>,<br />
+        <a href=
+        "http://www.iacr.org/conferences/asiacrypt2001/mirror/">Advances in
+        Cryptology - ASIACRYPT 2001</a>, LNCS, volume 2248, pages 52-66,
+        2001<br />
+        <br />
+        <i>Synopsis:</i> This is the original paper that presents the HB
+        protocol, which HB+ is based on. HB is not secure against passive
+        adversaries, although two variants presented in this paper and based on
+        other assumptions are secure against active adversaries.</li>
+      </ul>
+      <hr />
+    </div><script type="text/javascript">
 //<![CDATA[
     var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
     document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
     //]]>
-</script><script type="text/javascript">
+    </script><script type="text/javascript">
 //<![CDATA[
     var pageTracker = _gat._getTracker("UA-448164-1");
     pageTracker._initData();
     pageTracker._trackPageview();
     //]]>
-</script>
-
+    </script>
+  </div>
 </body>
 </html>
-
