@@ -1,0 +1,58 @@
+==================================================================
+https://keybase.io/sweis
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of http://saweis.net
+  * I am sweis (https://keybase.io/sweis) on keybase.
+  * I have a public key with fingerprint D4D2 0737 35F5 CB0F F6D9  BED1 9EF1 F36D 5B58 2B47
+
+To claim this, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "fingerprint": "d4d2073735f5cb0ff6d9bed19ef1f36d5b582b47",
+            "host": "keybase.io",
+            "key_id": "9ef1f36d5b582b47",
+            "uid": "232521de5629bff82d80328b52b39200",
+            "username": "sweis"
+        },
+        "service": {
+            "hostname": "saweis.net",
+            "protocol": "http:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1401407424,
+    "expire_in": 157680000,
+    "prev": "abb94f40ebd73cefff100d55629e0e2bf9098c74e74da03ce7f5bc8ab1b0d51d",
+    "seqno": 2,
+    "tag": "signature"
+}
+
+with the aforementioned key, yielding the PGP signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: GnuPG v1.4.9 (Darwin)
+
+owFtUTFIHUEQPb9JUCESuxTBYpuAfmRvb/fv3TVWielFEC0+N7ez3yXx7rw7v1Gx
+jqWksEgRExB7SZkmXQo7S5NOsEsgpLB1VrRzWVj2zXtv5jEHT0eDztTnf//XV5dn
+F0bOfvyBYPHDz9+7DEqzzdJd9hZvH+uKAdZV7YqWpcxII7iOdKSsyoFb2zMJoAkT
+tKGNekaBigVIzbpsrWy8gmwga3DOlYTRp+8MoQ/wN28LIhJKhAZVTyRgbSxMzCMR
+gxIQJYJzT2ywLrJ1JHazha5he11G0NDl6Af2fe/Lma/PFdiSrKrLtszLd4SvtW2V
+elm7XXneFkL/zqEPrjAUmQRDrBtXFiwNiZm3zluGktPVUsguw/eVq7HvPEPpXszp
++DY4JMsMIJFWcgSjoxyttSHnRvlYyFGATXgS51qilibjxNBWQR5nEALRQsN8po2i
+ZKmgMbOBT+MGRdZu1sj2JvZfPwqmOsGTxx2/tGBi/Nn9Ki9eBV8Ovp5eXh3vfxtb
+2lmenD/9PnN4DcHRm1/R88nLo+nF809/X85srLz4eHJ8Aw==
+=Y8W8
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/sweis
+
+==================================================================
