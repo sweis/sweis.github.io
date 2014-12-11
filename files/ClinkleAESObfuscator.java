@@ -4,10 +4,10 @@
 * This class is derived from the Clinkle Android app Java classes. It was originally under
 * package com.clinkle.lvl. It is *not* original source code and the interface has been 
 * slightly modified for readability and understandability. Notably, callers would pass in a
-* salt, package name, and Android ID. However, values were fixed in the source as far as I can tell.
+* salt, package name, and Android ID. These values were fixed in the source as far as I can tell.
 *
-* The Java crypto usage has been left intact. They are using CBC with a fixed IV value and deriving a key
-* from values that are visible to all applications.
+* The Java crypto usage has been left intact. They are using CBC with a fixed IV value and no
+* authentication. Keys appear to be derived from the Android ID, which is visible to all apps.
 *
 * Note, this has not been compiled, may contain bugs I've introduced, and will require more refactoring to
 * actually build.
