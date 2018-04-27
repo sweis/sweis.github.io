@@ -23,7 +23,7 @@
 
     <div class="row">
       <div class="col-md-2">
-        <img src="photos/steve_headshot_3.16.png" class="img-responsive visible-lg visible-md" alt="Steve Weis photo" />
+        <img src="photos/steve_headshot_3.16.png" class="img-fluid" alt="Steve Weis photo" />
       </div>
 
       <div class="col-md-10">
@@ -44,12 +44,12 @@
 
       <div>
 	<p>Steve Weis is a software engineer on the Facebook Data Privacy team,
-	where he focuses on securing people's data with applied cryptography. Previously, Steve was 
+	where he focuses on securing people's data with applied cryptography. Previously, Steve was
         co-founder &amp; CTO of <a href= "http://www.privatecore.com">PrivateCore</a>,
         a security startup acquired by Facebook in 2014. Some of his work includes building
 	<a href="https://www.facebook.com/notes/protect-the-graph/securing-email-communications-from-facebook/1611941762379302">PGP support for Facebook</a>,
 	<a href="http://www.google.com/landing/2step/">Google 2-step verification</a>
-        and the <a href="http://www.keyczar.org">Keyczar</a> cryptographic		
+        and the <a href="http://www.keyczar.org">Keyczar</a> cryptographic
 	library.</p>
 
 	<p>In the past, Steve was a
@@ -115,33 +115,15 @@
       <hr />
     </div>
   </div>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-448164-1"></script>
   <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-  ga('create', 'UA-448164-1', 'auto');
-  ga('send', 'pageview');
-
-</script>
-<!-- Facebook Pixel Code -->
-<script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '1780877798875704');
-  fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=1780877798875704&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Facebook Pixel Code -->
+    gtag('config', 'UA-448164-1');
+  </script>
 
 </body>
 </html>
