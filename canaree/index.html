@@ -47,49 +47,87 @@
       allowfullscreen></iframe>
     </p>
     <div>
-      <h4>Related Software Projects</h4>
-      <ul>
-        <li>
-          <a href="https://github.com/intel/linux-sgx">Intel Linux SGX SDK</a>
-        </li>
-        <li>
-          <a href="https://software.intel.com/en-us/articles/code-sample-intel-software-guard-extensions-remote-attestation-end-to-end-example">
-            Intel SGX Remote Attestation Example Code</a>
-        </li>
-        <li>
-          <a href="https://github.com/baidu/rust-sgx-sdk">Baidu Rust SGX SDK</a>
-        </li>
-        <li>
-          <a href="https://github.com/openenclave/">Microsoft OpenEnclave</a>
-        </li>
-        <li>
-          <a href="https://github.com/lsds/TaLoS">TaLoS TLS Termination in Enclaves</a>
-        </li>
-      </ul>
-    </div>
-    <div> 
-      <h4>Research Papers, Projects &amp; Programs</h4>
-      <ul>
+      <h4>The Information Sharing Challenge</h4>
 
-        <li>
-          <a href="https://www.microsoft.com/en-us/research/publication/enclavedb-a-secure-database-using-sgx/">Microsoft EnclaveDB</a>
-        </li>
-        <li>
-          <a href="https://www.microsoft.com/en-us/research/publication/shielding-applications-from-an-untrusted-cloud-with-haven/">Microsoft Haven</a>
-        </li>
-        <li>
-          <a href="https://ieeexplore.ieee.org/document/7070089">NSA "Using Classified Intelligence to Defend Unclassified Networks"</a>
-        </li>
-        <li> 
-          <a href="https://galois.com/project/fides/">Galois FIDES Project</a>
-        </li>
-        <li> 
-          <a href="https://www.dhs.gov/science-and-technology/cybersecurity-impact">
-            Department of Homeland Security Information Marketplace for Policy
-            and Analysis of Cyber-risk &amp; Trust (IMPACT)</a>
-        </li>
-      </ul>
-  </div>
+      <p>Foreign nation-state cyberattacks against US-based companies create a
+      national security risk and result in the loss of competitive intellectual
+      property. The US intelligence community holds classified information that
+      could help detect nation state attacks. However, that intelligence cannot
+      be shared without risking sources and methods. Private security data held
+      by industry, which might not be accessible due to regulatory or public
+      perception issues, could in turn aid intelligence agencies in identifying
+      broader attack campaigns.</p>
+
+      <p>Today, the time to declassify information and share it through existing
+      channels may reduce intelligence’s relevance by the time a company can act
+      on it. Recent developments in secure enclave technology may empower
+      companies and governments to rapidly act on classified intelligence,
+      without requiring declassification.</p>
+
+      <h4>Secure Enclaves &amp; Classified Threat Sensors</h4>
+
+      <p>Secure enclaves are an off-the-shelf technology that provides a safe
+      space to run audited software and process secret data on someone else’s
+      computer. We propose using secure enclaves to operate classified threat
+      sensors that run on a private company’s servers. These threat sensors
+      would be able to scan a company’s local security data for signs of
+      cyberattack or classified vulnerabilities without revealing the indicators
+      for which the sensor was searching.</p>
+
+      <p>Classified threat sensors solve the information sharing challenge
+      without declassifying intelligence or exposing private data to
+      governments. They may be built from off-the-shelf technology using
+      existing open source tools. These sensors could speed detection and
+      attribution of cyberattacks by foreign powers. Sensors can also act as an
+      early-warning system to discover broader campaigns, without exposing
+      private company data to the government.</p>
+
+      <h4>Rollout Plan</h4>
+
+      <p>We suggest a phased trial between the National Security Agency (NSA),
+      Department of Homeland Security (DHS), and private industry partners.
+      Secure enclave data sharing technology is already funded through the <a
+      href="https://www.dhs.gov/science-and-technology/cybersecurity-impact">DHS’s
+      IMPACT</a> program’s <a href="https://galois.com/project/fides/">Galois
+      FIDES Project</a>. The NSA also proposed a very similar design in a paper, 
+      <a href="https://ieeexplore.ieee.org/document/7070089">"Using Classified Intelligence to Defend Unclassified Networks"</a>
+
+      
+      This technology can be migrated to an open source
+      project, then run in parallel trial deployments for both
+      industry-to-industry and government-to-government sharing between the NSA
+      and DHS. After proven in trials, a government-to-industry sharing program
+      could be deployed between DHS and industry partners. See the
+      <a href="canaree-operational-plan.pdf">CANAREE Operational Plan</a> for
+      more details.</p>
+      
+      <h4>Open Source Grant Proposal</h4>
+      
+      <p>The first phase of the rollout plan to build an open source prototype
+      could be developed by student researchers using existing open source
+      projects, such as the Intel's <a
+      href="https://github.com/intel/linux-sgx"> Linux SGX SDK</a>, Intel's <a
+      href="https://software.intel.com/en-us/articles/code-sample-intel-software-guard-extensions-remote-attestation-end-to-end-example">
+      remote attestation examples</a>, Baidu's <a
+      href="https://github.com/baidu/rust-sgx-sdk">Rust SGX SDK</a>, Microsoft
+      <a href="https://github.com/openenclave/">OpenEnclave</a>, RedHat <a
+      href="https://enarx.io">Enarx</a>, or <a
+      href="https://github.com/lsds/TaLoS">TaLoS</a> TLS termination. Both
+      Microsoft <a
+      href="https://www.microsoft.com/en-us/research/publication/enclavedb-a-secure-database-using-sgx/">EnclaveDB</a>
+      and  <a
+      href="https://www.microsoft.com/en-us/research/publication/shielding-applications-from-an-untrusted-cloud-with-haven/">Haven</a>
+      may provide design insight.</p>         
+        
+      <p>This work could be conducted by 2 graduate or undergraduate students
+      for 1 semester and overseen by a 1/4 time Principal Investigator (PI). We
+      estimate that $150K would cover the student costs, PI, equipment,
+      conference travel, and indirect university overhead. See the
+      <a href="canaree-grant.pdf">CANAREE Open Source Grant Proposal</a> for
+      more details.</p>
+
+    </div>
+  <hr/>
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-448164-1"></script>
   <script>
