@@ -4,8 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <title>Current Nicolas Cage Status</title>
-  <meta name="description" content=o
-  "Current Nicolas Cage Status" />
+  <meta name="description" content="Current Nicolas Cage Status" />
   <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
@@ -15,19 +14,8 @@
   <center>
     <h1 style="font-size:40px; font-family: monospace;">Current Status</h1>
     <hr/>
-    <script>
-    var numImages = 8;
-    var range = 100;
-    const searchParams = new URLSearchParams(window.location.search);
-    let v = parseInt(searchParams.get("v"));
-    if (isNaN(v) || v < 0 || v > range) {
-      // Generate a random integer within the range of 0-100
-      v = Math.floor(Math.random() * range+1);
-    }
-    var imageIndex = Math.floor(v / (range / numImages));
-    const filename = "images/cage"+imageIndex+".png";
-    document.write('<img height="500" src="'+filename+'">');
-  </script>
+    <img height="500" id="selected-image" style="display: block;margin: auto;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src="" />
+    <script src="status.js"></script>
   </center>
 
 <hr/>
