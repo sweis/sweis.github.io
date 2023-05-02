@@ -3,15 +3,11 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>Current Nicolas Cage Status</title>
-  <meta name="description" content=o
-  "Current Nicolas Cage Status" />
-  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, minimum-scale=0.1">
 </head>
-
-<body bgcolor="#D3D2D6">
-  <script>
+<body style="margin: 0px; background: #D3D2D6; height: 100%">
+<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src="" />
+<script>
   var numImages = 8;
   var range = 100;
 
@@ -22,28 +18,8 @@
     v = Math.floor(Math.random() * range+1);
   }
   var imageIndex = Math.floor(v / (range / numImages));
-  // Use the value of v in your code
-  console.log("v = ", v, " index=", imageIndex);
   const filename = "images/cage"+imageIndex+".png";
-
-  const headers = new Headers({
-    "Content-Type": "image/png"
-  });
-  fetch(filename, { headers }).then(response => {
-    if (response.ok) {
-      response.blob().then(blob => {
-        const url = URL.createObjectURL(blob);
-        const img = document.createElement("img");
-        img.src = url;
-        document.body.appendChild(img);
-      });
-    } else {
-      console.error("Failed to fetch image file:", response.status, response.statusText);
-    }
-  }).catch(error => {
-    console.error("Failed to fetch image file:", error);
-  });
-  //document.write('<img height="500" src="'+filename+'">');
-  </script>
+  document.querySelector("img").src = filename;
+</script>
 </body>
 </html>
