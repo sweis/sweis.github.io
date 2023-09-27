@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>How were the NIST ECDSA curve parameters generated?</title>
+  <meta name="description" content="How were the NIST ECDSA curve parameters generated?" />
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" href="..css/bootstrap.min.css" type="text/css" as="style" />
+  <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css" />
+</head>
+
+<body>
+  <div class="container">
+    <div class="page-header">
+      <h2>How were the NIST ECDSA curve parameters generated?</h2>
+      <div><a href="https://saweis.net">Steve Weis</a></div>
+      <div>September 2023</div>
+    </div>
+    <hr />
+    <p>Whenever a controversy about the National Security Agency (NSA) arises among the cryptographic community, it
+      resurfaces a question that has been open for 25 years: How were the NIST ECDSA curve parameters generated?</p>
+
+    <p>ECDSA is the most widely used elliptic curve cryptography standard in practice. It originated
+      in the 1999
+      <a href="https://safecurves.cr.yp.to/grouper.ieee.org/groups/1363/private/x9-62-09-20-98.pdf">ANSI X9.62 ECDSA</a>
+      specifications and were adopted by NIST in 2000 as part of the
+      <a href="https://csrc.nist.gov/files/pubs/fips/186-2/final/docs/fips186-2.pdf">FIPS 186-2 Digital Signature
+        Standard</a>.
+      Both specifications list a set of standard elliptic curves of varying sizes and security levels. For curves over
+      prime fields, the specifications published a "seed" parameter whose hash value is used to define the other
+      parameters of the curve.
+    </p>
+    <p>
+      These seed parameters were provided by the NSA and appear in the specifications with no explanation or
+      justification. An example is the NIST P-256 curve seed:
+      <code>SEED = C49D3608 86E70493 6A6678E1 139D26B7 819F7E90</code>. Why
+      <i>this value</i> and not another? Revelations of NSA interference in cryptographic
+      standards like <a href="https://en.wikipedia.org/wiki/Dual_EC_DRBG">Dual_EC_DRBG</a> led to speculation of whether 
+      the NIST curve seeds could have been intentionally chosen with a weakness or backdoor known only to the NSA.
+    </p>
+    <h3>Who provided the seeds?</h3>
+    <p><a href="https://sites.math.washington.edu/~koblitz/">Neal Koblitz</a> and 
+      <a href="https://uwaterloo.ca/scholar/ajmeneze">Alfred Menezes</a> wrote an excellent summary on this controversy, 
+      <a href="https://eprint.iacr.org/2015/1018.pdf">"A Riddle Wrapped in an Enigma"</a>, which discusses the history 
+      and concerns around the seed values. Prof. Menezes was also the primary author of the ANSI X9.62 ECDSA standard. 
+      I contacted Prof. Menezes about where the seeds originated and he and definitively answered at least who provided them:
+      <b>Jerry Solinas</b> from the NSA. 
+    </p>
+    <blockquote><i>"Jerry Solinas did provide the seeds to me sometime in Fall 1997. At the time,
+        I was the primary author of the ANSI X9.62 ECDSA standard, and Jerry was
+        attending the standards meetings as an NSA representative. I don't know
+        if Jerry selected the seeds himself, but in any case he was the person
+        who contributed the seeds to the ANSI standards committee. (Jerry is the
+        "NSA representative" mentioned on <a href="https://eprint.iacr.org/2015/1018">page 8 of my article</a> with Neal
+        Koblitz.)"</i>
+    </blockquote>
+    <p>Jerry Solinas was a long time employee of the NSA who authored multiple cryptographic standards and
+      <a
+        href="https://datatracker.ietf.org/doc/search?name=&sort=&rfcs=on&activedrafts=on&by=author&author=Solinas">RFCs</a>.
+      Based on Menezes' account, Solinas provided the curve seeds as part of the X9.62 standards meeting.
+      Dr. Solinas providing the seeds had been mentioned is several secondary sources and it's the first 
+      time I've heard someone with direct knowledge corroborate it. Unfortunately, Dr. Solinas died in early
+      2023 without publicly saying how the curve seeds were generated.
+    </p>
+    <h3>How were the seeds generated?</h3>
+    <p>
+      <b>We don't know</b> and probably won't know unless we find some documentation or a contemporary of Jerry Solinas
+      who directly knows. In 2018, I tried to submit FOIA requests to both NIST and the NSA for any documents related to
+      the choice of elliptic curves over prime fields. NIST claimed they had no documentation and the NSA ceased
+      responding. These requests could likely be improved and reworded to have a better chance of finding something:
+    </p>
+    <ul>
+      <li>
+        <a
+          href="https://www.muckrock.com/foi/united-states-of-america-10/origin-of-fips-186-4-elliptic-curves-over-prime-field-seed-parameters-national-institute-of-standards-and-technology-78756/">FOIA
+          request to NIST</a>
+      </li>
+      <li>
+        <a
+          href="https://www.muckrock.com/foi/united-states-of-america-10/origin-of-fips-186-4-elliptic-curves-over-prime-field-seed-parameters-national-security-agency-78755/">FOIA
+          request to NSA</a>
+      </li>
+    </ul>
+    <h3>Verifiably at Random?</h3>
+    <p>
+      Jerry Solinas' own <a href="https://datatracker.ietf.org/doc/html/rfc4753">RFC 4753</a> says that the NIST curve's groups
+      were <i>"chosen verifiably at random using SHA-1 as specified in IEEE-1363 from the seed"</i>. That method is outlined in 
+      <a href="https://ieeexplore.ieee.org/document/891000">IEEE 1363</a> Section A.12.4 and is paraphrased as:
+    </p>
+    <ol>
+      <li>Choose an <b>arbitrary</b> bit string X of bit length L.</li>
+      <li>Compute seed = H(X).</li>
+      <li>Derive the curve and test if it has prime order.</li>
+      <li>Repeat if not.</li>
+    </ol>
+    <p>Note that the IEEE 1363 specification, which Dr. Solinas directly said he used, does not specify that the seed pre-image X 
+      need to be random. Arbitrary means arbitrary.
+    </p>
+
+    <h3>The Lost Passphrase Story</h3>
+    <p>
+      I asked a few contemporaries of Jerry Solinas who were involved in cryptographic standards in the late 1990s. 
+      One person who has worked on several cryptographic standards and is unaffiliated with the NSA told me
+      a relevant anecdote. They wished to remain anonymous:
+    </p>
+    <blockquote><i>"It was Jerry Solinas. I spoke to him about this very topic at least ten years ago [circa 2013].
+        [Jerry] told me that he used a seed that was something like:<br />
+        <code>SEED = SHA1("Jerry deserves a raise.")</code><br />
+        After he did the work, his machine was replaced or upgraded, and the actual phrase that he used was lost.<br />
+        When the controversy first came up, Jerry tried every phrase that he could think of that was similar to this,
+        but none matched."</i>
+    </blockquote>
+    <p>This corroborates hearsay from Dan Bernstein and Tanja Lange in these
+      <a href="https://csrc.nist.gov/files/pubs/sp/800/186/final/docs/sp800-186-draft-comments-received.pdf">comments
+        submitted to NIST</a>:
+    </p>
+    <blockquote>
+      <i>"I have heard NSA employees claiming that the "random" inputs were actually generated as hashes of 
+        English text chosen (and later forgotten) by Jerry Solinas."</i>
+      </blockquote>
+      <p>Bernstein and Lange also say in
+        <a href="https://www.hyperelliptic.org/tanja/vortraege/20130531.pdf">"Security dangers of the NIST curves"</a>, that
+      the <i>"IEEE P1363 standard ... Specifies method[s] of generating random non-prohibited curve[s]"</i> and 
+      <i>"Jerry Solinas at NSA used this to generate the NIST curves (or so he says)"</i>.
+      </p>
+    <p>
+      A third person who was affiliated with the NSA after Dr. Solinas' time repeated the anecdote, but heard it as a rumor 
+      repeated by someone else and did not have any direct knowledge. 
+    </p>
+    <p>
+      Does this contradict what Solinas said in his RFCs? I don't think so. If an "arbitrary" bit string is really arbitrary, 
+      a plain English phrase would suffice. That would technically be following IEEE 1363. You could hash passphrases until one 
+      generates a curve of sufficient order. 
+    </p>
+    <h3>What next?</h3>
+    <p>
+      It's unsatisfying to have a few second-hand and off-the-the record anecdotes about how the seeds were generated.
+      At the very least, it would be good to corroborate that the seeds are hashes of English phrases that were lost,
+      either from documentation or someone with first hand knowledge at the NSA. One person to ask is Laurie E. Law, 
+      who was a co-author of Jerry Solinas on papers and RFCs from at least
+      <a href="https://groups.csail.mit.edu/mac/classes/6.805/articles/money/nsamint/nsamint.htm">1996</a>
+      to <a href="https://datatracker.ietf.org/doc/html/rfc6379">2011</a>. I did not find any contact information for
+      her and she
+      is likely long retired.
+    </p>
+    <p>
+      A long shot chance is to try to bruteforce guess short English phrases and see if any collide with a seed
+      from the specifications. The anecdote I heard claimed that Jerry Solinas tried remembering his own phrases
+      after the fact and failed, so this is probably not worth the effort without more information.
+    </p>
+    <hr />
+    <h3>Appendix: The Seeds</h3>
+    <h4>NIST FIPS-186-2</h4>
+    <ul>
+      <li>
+        P-224 <code>BD713447 99D5C7FC DC45B59F A3B9AB8F 6A948BC5</code>
+      </li>
+      <li>
+        P-256 <code>C49D3608 86E70493 6A6678E1 139D26B7 819F7E90</code>
+      </li>
+      <li>
+        P-384 <code>A335926A A319A27A 1D00896A 6773A482 7ACDAC73</code>
+      </li>
+      <li>
+        P-521 <code>D09E8800 291CB853 96CC6717 393284AA A0DA64BA</code>
+      </li>
+    </ul>
+    <h4>ANSI X9.62</h4>
+    <h5>J.2.1 An Example with m = 191 (Trinomial Basis)</h5>
+    <ul>
+      <li>
+        <code>4E13CA54 2744D696 E6768756 1517552F 279A8C84</code>
+      </li>
+    </ul>
+    <h5>J.2.2 An Example with m = 239 (Trinomial Basis)</h5>
+    <ul>
+      <li>
+        <code>D34B9A4D 696E6768 75615175 CA71B920 BFEFB05D</code>
+      </li>
+    </ul>
+    <h5>J.3.1 An Example with a 192-bit Prime p</h5>
+    <ul>
+      <li>
+        <code>3045AE6F C8422F64 ED579528 D38120EA E12196D5</code>
+      </li>
+    </ul>
+    <h5>J.3.2 An Example with a 239-bit Prime p</h5>
+    <ul>
+      <li>
+        <code>E43BB460 F0B80CC0 C0B07579 8E948060 F8321B7D</code>
+      </li>
+    </ul>
+    <h5>J.4.1 3 Examples with m = 16</h5>
+    <ul>
+      <li>
+        <code>D2C0FB15 760860DE F1EEF4D6 96E67687 56151754</code>
+      </li>
+      <li>
+        <code>53814C05 0D44D696 E6768756 1517580C A4E29FFD</code>
+      </li>
+      <li>
+        <code>50CBF1D9 5CA94D69 6E676875 615175F1 6A36A3B8</code>
+      </li>
+    </ul>
+    <h5>J.4.3 5 Examples with m = 191</h5>
+    <ul>
+      <li>
+        <code>4E13CA54 2744D696 E6768756 1517552F 279A8C84</code>
+      </li>
+      <li>
+        <code>0871EF2F EF24D696 E6768756 151758BE E0D95C15</code>
+      </li>
+      <li>
+        <code>E053512D C684D696 E6768756 15175067 AE786D1F</code>
+      </li>
+      <li>
+        <code>A399387E AE54D696 E6768756 151750E5 8B416D57</code>
+      </li>
+      <li>
+        <code>2D88F7BC 545794D6 96E67687 56151759 73391555</code>
+      </li>
+    </ul>
+    <h5>J.4.5 5 Examples with m = 239</h5>
+    <ul>
+      <li>
+        <code>D34B9A4D 696E6768 75615175 CA71B920 BFEFB05D</code>
+      </li>
+      <li>
+        <code>2AA6982F DFA4D696 E6768756 15175D26 6727277D</code>
+      </li>
+      <li>
+        <code>9E076F4D 696E6768 75615175 E11E9FDD 77F92041</code>
+      </li>
+      <li>
+        <code>F851638C FA4D696E 67687561 51755651 3841BFAC</code>
+      </li>
+      <li>
+        <code>2C04F44D 696E6768 75615175 C586B41F 6CA150C9</code>
+      </li>
+    </ul>
+    <h5>J.4.8 An Example with m = 359</h5>
+    <ul>
+      <li>
+        <code>2B354920 B724D696 E6768756 1517585B A1332DC6</code>
+      </li>
+    </ul>
+    <h5>J.5.1 3 Examples with a 192-bit Prime</h5>
+    <ul>
+      <li>
+        <code>3045AE6F C8422F64 ED579528 D38120EA E12196D5</code>
+      </li>
+      <li>
+        <code>31A92EE2 029FD10D 901B113E 990710F0 D21AC6B6</code>
+      </li>
+      <li>
+        <code>C4696844 35DEB378 C4B65CA9 591E2A57 63059A2E</code>
+      </li>
+    </ul>
+    <h5>J.5.2 3 Examples with a 239-bit Prime</h5>
+    <ul>
+      <li>
+        <code>E43BB460 F0B80CC0 C0B07579 8E948060 F8321B7D</code>
+      </li>
+      <li>
+        <code>E8B40116 04095303 CA3B8099 982BE09F CB9AE616</code>
+      </li>
+      <li>
+        <code>7D737416 8FFE3471 B60A8576 86A19475 D3BFA2FF</code>
+      </li>
+    </ul>
+    <h5>J.5.3 An Example with a 256-bit Prime</h5>
+    <ul>
+      <li>
+        <code>C49D3608 86E70493 6A6678E1 139D26B7 819F7E90</code>
+      </li>
+    </ul>
+  </div>
+  <hr />
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-448164-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-448164-1');
+  </script>
+</body>
+
+</html>
