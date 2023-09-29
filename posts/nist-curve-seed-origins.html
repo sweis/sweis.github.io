@@ -153,6 +153,13 @@
       I heard claimed that Jerry Solinas tried remembering his own phrases after the fact and failed, so this is
       probably not worth the effort without more information.
     </p>
+    <h3>Repeated Bytes in X9.62 Field<sub>2<sup>m</sup></sub> Curve Seeds</h3>
+    <p>In the appendix below, I pasted all the seeds from the 
+      <a href="https://safecurves.cr.yp.to/grouper.ieee.org/groups/1363/private/x9-62-09-20-98.pdf">September 20, 1998 
+        version of the X9.62 specification</a>. You can see that there are many that share repeated or bit-shifted byte values
+        for Field<sub>2<sup>m</sup></sub> curves. Specifically <code>4D696 E6768756 15175</code> is repeated in 8 seeds. That would 
+        be good evidence that those seeds are <b>not</b> based on hashes of any plaintext strings.
+      </p> 
     <hr />
     <h3>Appendix: The Seeds</h3>
     <h4>NIST FIPS-186-2</h4>
@@ -195,7 +202,9 @@
         <code>E43BB460 F0B80CC0 C0B07579 8E948060 F8321B7D</code>
       </li>
     </ul>
-    <h5>J.4.1 3 Examples with m = 16</h5>
+    <h5>J.4.1 3 Examples with m = 163</h5>
+    <p><b>Note:</b> Notice the repeated and bitshifted values in these seeds. 
+      They were used to define curves over Field<sub>2<sup>163</sup></sub>.</p>
     <ul>
       <li>
         <code>D2C0FB15 760860DE F1EEF4D6 96E67687 56151754</code>
@@ -208,6 +217,8 @@
       </li>
     </ul>
     <h5>J.4.3 5 Examples with m = 191</h5>
+    <p><b>Note:</b> Notice the repeated values in these seeds.
+      They were used to define curves over Field<sub>2<sup>191</sup></sub>.</p>
     <ul>
       <li>
         <code>4E13CA54 2744D696 E6768756 1517552F 279A8C84</code>
@@ -226,6 +237,9 @@
       </li>
     </ul>
     <h5>J.4.5 5 Examples with m = 239</h5>
+    <p><b>Note:</b> Notice the repeated values in these seeds.
+      They were used to define curves over Field<sub>2<sup>239</sup></sub> 
+      and share bytes with those for Field<sub>2<sup>359</sup></sub>.</p>
     <ul>
       <li>
         <code>D34B9A4D 696E6768 75615175 CA71B920 BFEFB05D</code>
@@ -244,6 +258,8 @@
       </li>
     </ul>
     <h5>J.4.8 An Example with m = 359</h5>
+    <p><b>Note:</b> Notice the values in these seeds share bytes with
+      those for Field<sub>2<sup>239</sup></sub>.</p>
     <ul>
       <li>
         <code>2B354920 B724D696 E6768756 1517585B A1332DC6</code>
