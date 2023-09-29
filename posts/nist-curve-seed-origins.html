@@ -153,17 +153,26 @@
       I heard claimed that Jerry Solinas tried remembering his own phrases after the fact and failed, so this is
       probably not worth the effort without more information.
     </p>
-    <h3>Repeated Bytes in X9.62 Field<sub>2<sup>m</sup></sub> Curve Seeds</h3>
+    <h3>Minghua Qu and the X9.62 Field<sub>2<sup>m</sup></sub> Curve Seeds</h3>
     <p>In the appendix below, I pasted all the seeds from the 
       <a href="https://safecurves.cr.yp.to/grouper.ieee.org/groups/1363/private/x9-62-09-20-98.pdf">September 20, 1998 
         version of the X9.62 specification</a>. You can see that there are many that share repeated or bit-shifted byte values
-        for Field<sub>2<sup>m</sup></sub> curves. Specifically <code>4D696 E6768756 15175</code> is repeated in 8 seeds. That would 
-        be good evidence that those seeds are <b>not</b> based on hashes of any plaintext strings.
-      </p> 
+        for Field<sub>2<sup>m</sup></sub> curves. Specifically <code>4D696 E6768756 15175</code> is repeated in 8 seeds. 
+        <a href="https://https://argon.blue/">Taylor Yu</a>, noticed that this string is the ASCII encoding of the string
+      <code>MinghuaQu</code>. Minghua Qu is a cryptography who worked at Certicom at the time and is a co-author of Alfred Menezes on the 
+      <a href="https://en.wikipedia.org/wiki/MQV">MQV</a> key agreement protocol. This was <a href="https://dissect.crocs.fi.muni.cz/standards/secg">
+        noticed previously</a>. This is good evidence that the Field<sub>2<sup>m</sup></sub> seeds are <b>not</b> based on 
+        hashes of any plaintext strings.
+      </p>
     <hr />
     <h3>Appendix: The Seeds</h3>
+    <p>There is a more complete set of seeds available at the <a href="https://neuromancer.sk/std/">Standard curve database</a> 
+      in JSON format.</p>
     <h4>NIST FIPS-186-2</h4>
     <ul>
+      <li>
+        P-192 <code>3045AE6F C8422F64 ED579528 D38120EA E12196D5</code>
+      </li>
       <li>
         P-224 <code>BD713447 99D5C7FC DC45B59F A3B9AB8F 6A948BC5</code>
       </li>
