@@ -1,0 +1,464 @@
+[
+  {
+    "name": "ANSI x9.62",
+    "desc": "ANSI x9.62 example curves.",
+    "curves": [
+      {
+        "name": "prime192v1",
+        "desc": "",
+        "category": "x962",
+        "oid": "1.2.840.10045.3.1.1",
+        "aliases": [
+          "secg/secp192r1",
+          "nist/P-192"
+        ],
+        "seed": "3045AE6FC8422F64ED579528D38120EAE12196D5"
+      },
+      {
+        "name": "prime192v2",
+        "desc": "",
+        "category": "x962",
+        "oid": "1.2.840.10045.3.1.2",
+        "seed": "31A92EE2029FD10D901B113E990710F0D21AC6B6"
+      },
+      {
+        "name": "prime192v3",
+        "desc": "",
+        "category": "x962",
+        "oid": "1.2.840.10045.3.1.3",
+        "seed": "C469684435DEB378C4B65CA9591E2A5763059A2E"
+      },
+      {
+        "name": "prime239v1",
+        "desc": "",
+        "category": "x962",
+        "oid": "1.2.840.10045.3.1.4",
+        "seed": "E43BB460F0B80CC0C0B075798E948060F8321B7D"
+      },
+      {
+        "name": "prime239v2",
+        "desc": "",
+        "category": "x962",
+        "oid": "1.2.840.10045.3.1.5",
+        "seed": "0E8B4011604095303CA3B8099982BE09FCB9AE616"
+      },
+      {
+        "name": "prime239v3",
+        "desc": "",
+        "category": "x962",
+        "oid": "1.2.840.10045.3.1.6",
+        "seed": "7D7374168FFE3471B60A857686A19475D3BFA2FF"
+      },
+      {
+        "name": "prime256v1",
+        "desc": "",
+        "category": "x962",
+        "oid": "1.2.840.10045.3.1.7",
+        "aliases": [
+          "secg/secp256r1",
+          "nist/P-256"
+        ],
+        "seed": "C49D360886E704936A6678E1139D26B7819F7E90"
+      },
+      {
+        "name": "c2pnb163v1",
+        "desc": "",
+        "category": "x962",
+        "oid": "1.2.840.10045.3.0.1",
+        "aliases": [
+          "wtls/wap-wsg-idm-ecid-wtls5"
+        ],
+        "seed": "D2C0FB15760860DEF1EEF4D696E6768756151754"
+      },
+      {
+        "name": "c2pnb163v2",
+        "desc": "",
+        "category": "x962",
+        "oid": "1.2.840.10045.3.0.2",
+        "seed": "53814C050D44D696E67687561517580CA4E29FFD"
+      },
+      {
+        "name": "c2pnb163v3",
+        "desc": "",
+        "category": "x962",
+        "oid": "1.2.840.10045.3.0.3",
+        "seed": "50CBF1D95CA94D696E676875615175F16A36A3B8"
+      },
+      {
+        "name": "c2tnb191v3",
+        "desc": "",
+        "category": "x962",
+        "oid": "1.2.840.10045.3.0.7",
+        "seed": "E053512DC684D696E676875615175067AE786D1F"
+      },
+      {
+        "name": "c2tnb191v2",
+        "desc": "",
+        "category": "x962",
+        "oid": "1.2.840.10045.3.0.6",
+        "seed": "0871EF2FEF24D696E6768756151758BEE0D95C15"
+      },
+      {
+        "name": "c2tnb191v1",
+        "desc": "",
+        "category": "x962",
+        "oid": "1.2.840.10045.3.0.5",
+        "seed": "4E13CA542744D696E67687561517552F279A8C84"
+      },
+      {
+        "name": "c2tnb239v3",
+        "desc": "",
+        "category": "x962",
+        "oid": "1.2.840.10045.3.0.13",
+        "seed": "9E076F4D696E676875615175E11E9FDD"
+      },
+      {
+        "name": "c2tnb239v2",
+        "desc": "",
+        "category": "x962",
+        "oid": "1.2.840.10045.3.0.12",
+        "seed": "2AA6982FDFA4D696E676875615175D266727277D"
+      },
+      {
+        "name": "c2tnb239v1",
+        "desc": "",
+        "category": "x962",
+        "oid": "1.2.840.10045.3.0.11",
+        "seed": "D34B9A4D696E676875615175CA71B920BFEFB05D"
+      },
+      {
+        "name": "c2tnb359v1",
+        "desc": "",
+        "category": "x962",
+        "oid": "1.2.840.10045.3.0.18",
+        "seed": "2B354920B724D696E67687561517585BA1332DC6"
+      },
+      {
+        "name": "c2onb191v4",
+        "desc": "A binary-field curve in optimal normal basis",
+        "category": "x962",
+        "oid": "1.2.840.10045.3.0.8",
+        "seed": "A399387EAE54D696E6768756151750E58B416D57"
+      },
+      {
+        "name": "c2onb191v5",
+        "desc": "A binary-field curve in optimal normal basis",
+        "category": "x962",
+        "oid": "1.2.840.10045.3.0.9",
+        "seed": "2D88F7BC545794D696E676875615175973391555"
+      },
+      {
+        "name": "c2onb239v4",
+        "desc": "A binary-field curve in optimal normal basis",
+        "category": "x962",
+        "oid": "1.2.840.10045.3.0.14",
+        "seed": "F851638CFA4D696E67687561517556513841BFAC"
+      },
+      {
+        "name": "c2onb239v5",
+        "desc": "A binary-field curve in optimal normal basis",
+        "category": "x962",
+        "oid": "1.2.840.10045.3.0.15",
+        "seed": "2C04F44D696E676875615175C586B41F6CA150C9"
+      }
+    ]
+  },
+  {
+    "name": "NIST",
+    "desc": "RECOMMENDED ELLIPTIC CURVES FOR FEDERAL GOVERNMENT USE  July 1999",
+    "curves": [
+      {
+        "name": "P-192",
+        "desc": "",
+        "category": "nist",
+        "oid": "1.2.840.10045.3.1.1",
+        "aliases": [
+          "secg/secp192r1",
+          "x962/prime192v1"
+        ],
+        "seed": "3045AE6FC8422F64ED579528D38120EAE12196D5"
+      },
+      {
+        "name": "P-224",
+        "desc": "",
+        "category": "nist",
+        "oid": "1.3.132.0.33",
+        "aliases": [
+          "secg/secp224r1",
+          "wtls/wap-wsg-idm-ecid-wtls12",
+          "x963/ansip224r1"
+        ],
+        "seed": "BD71344799D5C7FCDC45B59FA3B9AB8F6A948BC5"
+      },
+      {
+        "name": "P-256",
+        "desc": "",
+        "category": "nist",
+        "oid": "1.2.840.10045.3.1.7",
+        "aliases": [
+          "secg/secp256r1",
+          "x962/prime256v1"
+        ],
+        "seed": "C49D360886E704936A6678E1139D26B7819F7E90"
+      },
+      {
+        "name": "P-384",
+        "desc": "",
+        "category": "nist",
+        "oid": "1.3.132.0.34",
+        "aliases": [
+          "secg/secp384r1",
+          "x963/ansip384r1"
+        ],
+        "seed": "A335926AA319A27A1D00896A6773A4827ACDAC73"
+      },
+      {
+        "name": "P-521",
+        "desc": "",
+        "category": "nist",
+        "oid": "1.3.132.0.35",
+        "aliases": [
+          "secg/secp521r1",
+          "x963/ansip521r1"
+        ],
+        "seed": "D09E8800291CB85396CC6717393284AAA0DA64BA"
+      },
+      {
+        "name": "B-163",
+        "desc": "",
+        "category": "nist",
+        "oid": "1.3.132.0.15",
+        "aliases": [
+          "secg/sect163r2",
+          "x963/ansit163r2"
+        ],
+        "seed": "85E25BFE5C86226CDB12016F7553F9D0E693A268"
+      },
+      {
+        "name": "B-233",
+        "desc": "",
+        "category": "nist",
+        "oid": "1.3.132.0.27",
+        "aliases": [
+          "secg/sect233r1",
+          "wtls/wap-wsg-idm-ecid-wtls11",
+          "x963/ansit233r1"
+        ],
+        "seed": "74D59FF07F6B413D0EA14B344B20A2DB049B50C3"
+      },
+      {
+        "name": "B-283",
+        "desc": "",
+        "category": "nist",
+        "oid": "1.3.132.0.17",
+        "aliases": [
+          "secg/sect283r1",
+          "x963/ansit283r1"
+        ],
+        "seed": "77E2B07370EB0F832A6DD5B62DFC88CD06BB84BE"
+      },
+      {
+        "name": "B-409",
+        "desc": "",
+        "category": "nist",
+        "oid": "1.3.132.0.37",
+        "aliases": [
+          "secg/sect409r1",
+          "x963/ansit409r1"
+        ],
+        "seed": "4099B5A457F9D69F79213D094C4BCD4D4262210B"
+      },
+      {
+        "name": "B-571",
+        "desc": "",
+        "category": "nist",
+        "oid": "1.3.132.0.39",
+        "aliases": [
+          "secg/sect571r1",
+          "x963/ansit571r1"
+        ],
+        "seed": "2AA058F73A0E33AB486B0F610410C53A7F132310"
+      }
+    ]
+  },
+  {
+    "name": "SECG",
+    "desc": "SEC 2: Recommended Elliptic Curve Domain Parameters version 2.0  January 27, 2010",
+    "curves": [
+      {
+        "name": "secp112r1",
+        "desc": "A randomly generated curve. [SEC2v1](https://www.secg.org/SEC2-Ver-1.0.pdf) states 'E was chosen verifiably at random as specified in ANSI X9.62 [1] from the seed'.",
+        "category": "secg",
+        "oid": "1.3.132.0.6",
+        "aliases": [
+          "wtls/wap-wsg-idm-ecid-wtls6"
+        ],
+        "seed": "00F50B028E4D696E676875615175290472783FB1"
+      },
+      {
+        "name": "secp112r2",
+        "desc": "A randomly generated curve. [SEC2v1](https://www.secg.org/SEC2-Ver-1.0.pdf) states 'E was chosen verifiably at random as specified in ANSI X9.62 [1] from the seed'.",
+        "category": "secg",
+        "oid": "1.3.132.0.7",
+        "seed": "002757A1114D696E6768756151755316C05E0BD4"
+      },
+      {
+        "name": "secp128r1",
+        "desc": "A randomly generated curve. [SEC2v1](https://www.secg.org/SEC2-Ver-1.0.pdf) states 'E was chosen verifiably at random as specified in ANSI X9.62 [1] from the seed'.",
+        "category": "secg",
+        "oid": "1.3.132.0.28",
+        "seed": "000E0D4D696E6768756151750CC03A4473D03679"
+      },
+      {
+        "name": "secp128r2",
+        "desc": "A randomly generated curve. [SEC2v1](https://www.secg.org/SEC2-Ver-1.0.pdf) states 'E was chosen verifiably at random as specified in ANSI X9.62 [1] from the seed'.",
+        "category": "secg",
+        "oid": "1.3.132.0.29",
+        "seed": "004D696E67687561517512D8F03431FCE63B88F4"
+      },
+      {
+        "name": "secp160r1",
+        "desc": "A randomly generated curve. [SEC2v1](https://www.secg.org/SEC2-Ver-1.0.pdf) states 'E was chosen verifiably at random as specified in ANSI X9.62 [1] from the seed'.",
+        "category": "secg",
+        "oid": "1.3.132.0.8",
+        "aliases": [
+          "wtls/wap-wsg-idm-ecid-wtls7",
+          "x963/ansip160r1"
+        ],
+        "seed": "1053CDE42C14D696E67687561517533BF3F83345"
+      },
+      {
+        "name": "secp160r2",
+        "desc": "A randomly generated curve. [SEC2v1](https://www.secg.org/SEC2-Ver-1.0.pdf) states 'E was chosen verifiably at random as specified in ANSI X9.62 [1] from the seed'.",
+        "category": "secg",
+        "oid": "1.3.132.0.30",
+        "aliases": [
+          "x963/ansip160r2"
+        ],
+        "seed": "B99B99B099B323E02709A4D696E6768756151751"
+      },
+      {
+        "name": "secp192r1",
+        "desc": "A randomly generated curve. [SEC2v1](https://www.secg.org/SEC2-Ver-1.0.pdf) states 'E was chosen verifiably at random as specified in ANSI X9.62 [1] from the seed'.",
+        "category": "secg",
+        "oid": "1.2.840.10045.3.1.1",
+        "aliases": [
+          "nist/P-192",
+          "x962/prime192v1"
+        ],
+        "seed": "3045AE6FC8422F64ED579528D38120EAE12196D5"
+      },
+      {
+        "name": "secp224r1",
+        "desc": "A randomly generated curve. [SEC2v1](https://www.secg.org/SEC2-Ver-1.0.pdf) states 'E was chosen verifiably at random as specified in ANSI X9.62 [1] from the seed'.",
+        "category": "secg",
+        "oid": "1.3.132.0.33",
+        "aliases": [
+          "nist/P-224",
+          "wtls/wap-wsg-idm-ecid-wtls12",
+          "x963/ansip224r1"
+        ],
+        "seed": "BD71344799D5C7FCDC45B59FA3B9AB8F6A948BC5"
+      },
+      {
+        "name": "secp256r1",
+        "desc": "A randomly generated curve. [SEC2v1](https://www.secg.org/SEC2-Ver-1.0.pdf) states 'E was chosen verifiably at random as specified in ANSI X9.62 [1] from the seed'.",
+        "category": "secg",
+        "oid": "1.2.840.10045.3.1.7",
+        "aliases": [
+          "nist/P-256",
+          "x962/prime256v1"
+        ],
+        "seed": "C49D360886E704936A6678E1139D26B7819F7E90"
+      },
+      {
+        "name": "secp384r1",
+        "desc": "",
+        "category": "secg",
+        "oid": "1.3.132.0.34",
+        "aliases": [
+          "nist/P-384",
+          "x963/ansip384r1"
+        ],
+        "seed": "A335926AA319A27A1D00896A6773A4827ACDAC73"
+      },
+      {
+        "name": "secp521r1",
+        "desc": "",
+        "category": "secg",
+        "oid": "1.3.132.0.35",
+        "aliases": [
+          "nist/P-521",
+          "x963/ansip521r1"
+        ],
+        "seed": "D09E8800291CB85396CC6717393284AAA0DA64BA"
+      },
+      {
+        "name": "sect163r1",
+        "desc": "A randomly generated curve, using the SECG/X9.62 method. 'However for historical reasons the method used to generate E from S differs slightly from the method described in ANSI X9.62 [X9.62]. Specifically the coefficient b produced from S is the reverse of the coefficient that would have been produced by the method described in ANSI X9.62.'",
+        "category": "secg",
+        "oid": "1.3.132.0.2",
+        "aliases": [
+          "x963/ansit163r1"
+        ],
+        "seed": "24B7B137C8A14D696E6768756151756FD0DA2E5C"
+      },
+      {
+        "name": "sect163r2",
+        "desc": "A randomly generated curve. 'E was selected from S as specified in ANSI X9.62 [X9.62] in normal basis representation and converted into polynomial basis representation.'",
+        "category": "secg",
+        "oid": "1.3.132.0.15",
+        "aliases": [
+          "nist/B-163",
+          "x963/ansit163r2"
+        ],
+        "seed": "85E25BFE5C86226CDB12016F7553F9D0E693A268"
+      },
+      {
+        "name": "sect233r1",
+        "desc": "",
+        "category": "secg",
+        "oid": "1.3.132.0.27",
+        "aliases": [
+          "nist/B-233",
+          "wtls/wap-wsg-idm-ecid-wtls11",
+          "x963/ansit233r1"
+        ],
+        "seed": "74D59FF07F6B413D0EA14B344B20A2DB049B50C3"
+      },
+      {
+        "name": "sect283r1",
+        "desc": "",
+        "category": "secg",
+        "oid": "1.3.132.0.17",
+        "aliases": [
+          "nist/B-283",
+          "x963/ansit283r1"
+        ],
+        "seed": "77E2B07370EB0F832A6DD5B62DFC88CD06BB84BE"
+      },
+      {
+        "name": "sect409r1",
+        "desc": "",
+        "category": "secg",
+        "oid": "1.3.132.0.37",
+        "aliases": [
+          "nist/B-409",
+          "x963/ansit409r1"
+        ],
+        "seed": "4099B5A457F9D69F79213D094C4BCD4D4262210B"
+      },
+      {
+        "name": "sect571r1",
+        "desc": "",
+        "category": "secg",
+        "oid": "1.3.132.0.39",
+        "aliases": [
+          "nist/B-571",
+          "x963/ansit571r1"
+        ],
+        "seed": "2AA058F73A0E33AB486B0F610410C53A7F132310"
+      }
+    ]
+  }
+]
