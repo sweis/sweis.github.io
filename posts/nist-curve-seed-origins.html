@@ -93,12 +93,12 @@
       <a href="https://ieeexplore.ieee.org/document/891000">IEEE 1363</a> Section A.12.4 and is paraphrased as:
     </p>
     <ol>
-      <li>Choose an <b>arbitrary</b> bit string X of bit length L.</li>
-      <li>Compute seed = H(X).</li>
-      <li>Derive the curve and test if it has prime order.</li>
+      <li>Choose an <b>arbitrary</b> bit string  <code>seed</code> of bit length L.</li>
+      <li>Compute <code>h = H(seed)</code>.</li>
+      <li>Derive the curve from <code>h</code> and test if it has prime order.</li>
       <li>Repeat if not.</li>
     </ol>
-    <p>Note that the IEEE 1363 specification, which Dr. Solinas directly said he used, does not specify that the seed pre-image X 
+    <p>Note that the IEEE 1363 specification, which Dr. Solinas directly said he used, does not specify that the seed S
       need to be random. Arbitrary means arbitrary.
     </p>
 
@@ -135,7 +135,7 @@
     <p>
       Does this contradict what Solinas said in his RFCs? I don't think so. If an "arbitrary" bit string is really arbitrary, 
       a plain English phrase would suffice. That would technically be following IEEE 1363. You could hash passphrases until one 
-      generates a curve of sufficient order. 
+      generates a seed for a curve of sufficient order. 
     </p>
     <p>Summarizing all the rumors: The pre-seed phrases are English phrases which mention Jerry Solinas, possibly someone else, 
       and possibly a counter. An example guess might be <code>SEED = SHA1("Jerry and Bob need raises123")</code>.
