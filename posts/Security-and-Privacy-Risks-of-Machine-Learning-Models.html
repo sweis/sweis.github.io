@@ -25,21 +25,21 @@
       <h2>Background on Machine Learning Models</h2>
 
       <figure>
-        <img src="images/ml-training-phase.png" alt="Diagram showing the training phase: input training data, learning process, output model" />
+        <img src="../images/ml-training-phase.png" alt="Diagram showing the training phase: input training data, learning process, output model" />
         <figcaption>The training phase takes a set of input training data, applies a learning process, and outputs a model.</figcaption>
       </figure>
 
       <p>In an attempt to distill an entire field into a few sentences, machine learning generally takes a set of training data, applies a learning process, and outputs a model. The "learning process" is where most of innovation and complexity of the field lies. There are many <a href="https://see.stanford.edu/course/cs229">introductory courses online</a> for more details.</p>
 
       <figure>
-        <img src="images/ml-prediction-phase.png" alt="Diagram showing the prediction phase: model applied to real data to make a prediction" />
+        <img src="../images/ml-prediction-phase.png" alt="Diagram showing the prediction phase: model applied to real data to make a prediction" />
         <figcaption>The prediction phase applies the model to real data in order to make a prediction.</figcaption>
       </figure>
 
       <p>The model itself is what does useful work. It can be applied to real data and make predictions. For instance, the model may take images and predict whether an animal is pictured, i.e. an animal <em>classifier</em>. Or, a model may perform a <em>regression</em> and forecast some continuous value.</p>
 
       <figure>
-        <img src="images/ml-chihuahua-muffin.jpeg" alt="Grid of images showing chihuahuas and blueberry muffins that look similar" />
+        <img src="../images/ml-chihuahua-muffin.jpeg" alt="Grid of images showing chihuahuas and blueberry muffins that look similar" />
         <figcaption>A machine learning model could be trained to classify whether images are chihuahuas or blueberry muffins.</figcaption>
       </figure>
 
@@ -59,14 +59,14 @@
       <p>Poisoning attacks in machine learning are when an adversary injects malicious data during the training phase with the goal of controlling how the model will behave in practice. Recall that models are not intentionally designed, so they make no distinction between "good" and "bad" data. Whatever you input to a model, it will learn.</p>
 
       <figure>
-        <img src="images/ml-poisoning-attack.png" alt="Diagram showing how an adversary altering training data can control model behavior" />
+        <img src="../images/ml-poisoning-attack.png" alt="Diagram showing how an adversary altering training data can control model behavior" />
         <figcaption>An adversary able to alter training data can control how a model behaves.</figcaption>
       </figure>
 
       <p>Microsoft learned first hand of poisoning attacks when it released <a href="https://en.wikipedia.org/wiki/Tay_%28bot%29">Tay</a>, which was a Twitter chatbot that was trained by real interactions with people. Microsoft allowed Tay to be trained more or less real time on unfiltered tweets from Twitter users. Predictably, it took less than a day for Tay to transform from <a href="https://www.theverge.com/2016/3/24/11297050/tay-microsoft-chatbot-racist">naive friendliness to full blown racist</a>.</p>
 
       <figure>
-        <img src="images/ml-tay-chatbot.png" alt="Microsoft Tay chatbot demonstrating poisoning attack results" />
+        <img src="../images/ml-tay-chatbot.png" alt="Microsoft Tay chatbot demonstrating poisoning attack results" />
         <figcaption>Microsoft learns the perils of machine learning poisoning attacks.</figcaption>
       </figure>
 
@@ -82,13 +82,13 @@
       <p>Evasion attacks occur at the prediction stage and are when an adversary has crafted an <em>adversarial example</em> which will be inaccurately classified. For example, an adversary may tweak a fraudulent transaction so that it is improperly classified as a legitimate transaction.</p>
 
       <figure>
-        <img src="images/ml-evasion-attack.png" alt="Diagram showing an evasion attack on a model" />
+        <img src="../images/ml-evasion-attack.png" alt="Diagram showing an evasion attack on a model" />
       </figure>
 
       <p>Crafting adversarial examples is fairly easy in practice — often involving adding a small amount of noise. A good example case is from <a href="https://arxiv.org/abs/1412.6572">"Explaining and Harnessing Adversarial Examples"</a>, which shows how to perturb an image of, say, a panda bear, so that a machine learning model will classify it as a gibbon.</p>
 
       <figure>
-        <img src="images/ml-adversarial-panda.png" alt="A panda image plus small perturbation equals a gibbon classification" />
+        <img src="../images/ml-adversarial-panda.png" alt="A panda image plus small perturbation equals a gibbon classification" />
         <figcaption>A demonstration of fast adversarial example generation. Image from <a href="https://arxiv.org/abs/1412.6572">Explaining and Harnessing Adversarial Examples</a> by Goodfellow et al.</figcaption>
       </figure>
 
@@ -111,7 +111,7 @@
       <p>For example, suppose a machine learning model is classifying types of animals based on their properties. It might have some equivalent to <em>"If it lays eggs, it is not a mammal unless it is a duck-billed platypus"</em>. If you can tell that a model has this rule, then you know a duck-billed platypus was part of its training set.</p>
 
       <figure>
-        <img src="images/ml-memorization.png" alt="Diagram showing how an overfit model may encode specific input instances that may later be extracted" />
+        <img src="../images/ml-memorization.png" alt="Diagram showing how an overfit model may encode specific input instances that may later be extracted" />
         <figcaption>This illustrates how an overfit model may encode specific input instances that may later be extracted.</figcaption>
       </figure>
 
