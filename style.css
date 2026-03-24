@@ -334,19 +334,12 @@ iframe {
   }
 
   .hero {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
     gap: 1.25rem;
   }
 
   .hero-photo {
-    width: 100px;
-    min-width: 100px;
-  }
-
-  .hero-contact ul {
-    padding: 0;
+    width: 80px;
+    min-width: 80px;
   }
 
   h2 { font-size: 1.25rem; }
