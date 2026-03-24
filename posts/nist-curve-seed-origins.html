@@ -6,23 +6,21 @@
   <meta property="og:title" content="How were the NIST ECDSA curve parameters generated?" />
   <meta property="og:description" name="description" content="A post talking about how Jerry Solinas provided the NIST ECDSA curve parameters
    and anecdotes of how they were chosen." />
-  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="preload" href="../css/bootstrap.min.css" type="text/css" as="style" />
-  <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../style.css" type="text/css" />
 </head>
 
 <body>
   <div class="container">
     <div class="page-header">
-      <h2>How were the NIST ECDSA curve parameters generated?</h2>
-      <div><a href="https://saweis.net">Steve Weis</a></div>
-      <div>September 2023</div>
+      <a href="../index.html" class="back-link">Stephen A. Weis</a>
+      <h1>How were the NIST ECDSA curve parameters generated?</h1>
+      <p class="text-muted">September 2023</p>
     </div>
-    <hr />
     <p>Whenever a controversy about the National Security Agency (NSA) arises among the cryptographic community, it
       resurfaces a question that has been open for 25 years: How were the NIST ECDSA curve parameters generated?</p>
-    <h3>The Answer</h3>
+    <h2>The Answer</h2>
     <p><b>tl;dr:</b> The NIST ECDSA P-256 curve seeds are on a hard drive next to the Ark of the Covenant.</p>
     <p><b>Update August 2024:</b> Daniel Bernstein and Tanja Lange released emails in Appendix C of
       <a href="https://cr.yp.to/papers/safecurves-20240809.pdf">"Safe curves for elliptic-curve cryptography"</a>
@@ -43,7 +41,7 @@
         sitting on a hard drive near the Ark of the Covenant</b>."</i>
     </p>
 
-    <h3>Background</h3>
+    <h2>Background</h2>
     <p>ECDSA is the most widely used elliptic curve cryptography standard in practice. It originated
       in the 1999
       <a href="https://safecurves.cr.yp.to/grouper.ieee.org/groups/1363/private/x9-62-09-20-98.pdf">ANSI X9.62 ECDSA</a>
@@ -64,7 +62,7 @@
       standards like <a href="https://en.wikipedia.org/wiki/Dual_EC_DRBG">Dual_EC_DRBG</a> led to speculation of whether 
       the NIST curve seeds could have been intentionally chosen with a weakness or backdoor known only to the NSA.
     </p>
-    <h3>Who provided the seeds?</h3>
+    <h2>Who provided the seeds?</h2>
     <p><a href="https://sites.math.washington.edu/~koblitz/">Neal Koblitz</a> and 
       <a href="https://uwaterloo.ca/scholar/ajmeneze">Alfred Menezes</a> wrote an excellent summary on this controversy, 
       <a href="https://eprint.iacr.org/2015/1018.pdf">"A Riddle Wrapped in an Enigma"</a>, which discusses the history 
@@ -88,7 +86,7 @@
       time I've heard someone with direct knowledge corroborate it. Unfortunately, Dr. Solinas died in early
       2023 without publicly saying how the curve seeds were generated.
     </p>
-    <h3>How were the seeds generated?</h3>
+    <h2>How were the seeds generated?</h2>
     <p>
       <b>We don't know</b> and probably won't know unless we find some documentation or a contemporary of Jerry Solinas
       who directly knows. In 2018, I tried to submit FOIA requests to both NIST and the NSA for any documents related to
@@ -107,7 +105,7 @@
  request to NSA</a>
       </li>
     </ul>
-    <h3>Verifiably at Random?</h3>
+    <h2>Verifiably at Random?</h2>
     <p>
       Jerry Solinas' own <a href="https://datatracker.ietf.org/doc/html/rfc4753">RFC 4753</a> says that the NIST curve's groups
       were <i>"chosen verifiably at random using SHA-1 as specified in IEEE-1363 from the seed"</i>. That method is outlined in 
@@ -123,7 +121,7 @@
       need to be random. Arbitrary means arbitrary.
     </p>
 
-    <h3>The Lost Passphrase Story</h3>
+    <h2>The Lost Passphrase Story</h2>
     <p><b>Update August 2024:</b> This story has been corroborated by emails from Jerry Solinas linked above.</p>
     <p>
       I asked a few contemporaries of Jerry Solinas who were involved in cryptographic standards in the late 1990s. 
@@ -162,7 +160,7 @@
     <p>Summarizing all the rumors: The pre-seed phrases are English phrases which mention Jerry Solinas, possibly someone else, 
       and possibly a counter. An example guess might be <code>SEED = SHA1("Jerry and Bob need raises123")</code>.
     </p>
-    <h3>Minghua Qu and the X9.62 Field<sub>2<sup>m</sup></sub> Curve Seeds</h3>
+    <h2>Minghua Qu and the X9.62 Field<sub>2<sup>m</sup></sub> Curve Seeds</h2>
     <p>In the appendix below, I pasted all the seeds from the 
       <a href="https://safecurves.cr.yp.to/grouper.ieee.org/groups/1363/private/x9-62-09-20-98.pdf">September 20, 1998 
         version of the X9.62 specification</a>. You can see that there are many that share repeated or bit-shifted byte values
@@ -173,7 +171,7 @@
       <a href="https://en.wikipedia.org/wiki/MQV">MQV</a> key agreement protocol. 
       This is good evidence that the Field<sub>2<sup>m</sup></sub> seeds are <b>not</b> based on hashes of any plaintext strings.
       </p>
-    <h3>What next?</h3>
+    <h2>What next?</h2>
       <p>
         It's unsatisfying to have a few second-hand and off-the-the record anecdotes about how the seeds were generated.
         At the very least, it would be good to corroborate that the seeds are hashes of English phrases that were lost,
@@ -200,7 +198,7 @@
         </li>
       </ul>
       <hr />
-    <h3>Appendix: The Seeds</h3>
+    <h2>Appendix: The Seeds</h2>
     <p>
       <p>These are some selected seeds from NIST and X9.62. This <a href="https://saweis.net/files/seeds.json">has more comprehensive details</a> 
         and was filtered from a larger set of curve data at the <a href="https://neuromancer.sk/std/">Standard curve database</a>.</p>
@@ -628,7 +626,14 @@
 ]
     </pre>
   </div>
-  <hr />
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-448164-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-448164-1');
+  </script>
 </body>
 
 </html>
