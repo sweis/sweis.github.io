@@ -177,11 +177,9 @@ li li {
 /* Hero section (index page) */
 .hero {
   display: flex;
-  flex-wrap: nowrap;
   gap: 2rem;
   align-items: flex-start;
   margin-bottom: 2rem;
-  text-align: left;
 }
 
 .hero-photo {
@@ -336,17 +334,12 @@ iframe {
   }
 
   .hero {
-    flex-wrap: nowrap;
-    gap: 1rem;
+    gap: 1.25rem;
   }
 
   .hero-photo {
     width: 80px;
     min-width: 80px;
-  }
-
-  .hero-contact {
-    text-align: left;
   }
 
   h2 { font-size: 1.25rem; }
