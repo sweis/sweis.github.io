@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Shrinking "Hello, world!" ELF Binaries</title>
+  <meta name="description" content="How small can a Linux executable that prints Hello, world! actually be? 76→58 bytes (i386) and 120→86 bytes (x86-64)." />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../style.css" type="text/css" />
+</head>
+
+<body>
+  <div class="container">
+    <div class="page-header">
+      <a href="../index.html" class="back-link">Stephen A. Weis</a>
+      <h1>Shrinking &ldquo;Hello, world!&rdquo; ELF Binaries: 76&rarr;58 (i386) and 120&rarr;86 (x86-64)</h1>
+    </div>
+
+    <div class="section">
+      <p>The work in this post was generated using Claude.</p>
+    </div>
+    <hr/>
+    <div class="section">
+      <p>How small can a Linux executable that prints <code>Hello, world!</code> actually be?
+      Starting from the prior benchmarks of Brian Raiter&rsquo;s
+      <a href="https://www.muppetlabs.com/~breadbox/software/tiny/hello.asm.txt">62-byte i386 hello</a>
+      and Nathan Otterness&rsquo;s
+      <a href="https://nathanotterness.com/2021/10/tiny_elf_modernized.html">120-byte x86-64 hello</a>, 
+        we look at how to take a few more bytes off each implementation.</p>
+    </div>
+
+    <div class="section">
+      <h2>Background: what the kernel actually checks</h2>
+
+      <p>An ELF file has two headers: the ELF header (<code>ehdr</code>, 52/64 bytes) tells
+      the kernel where to find the program header (<code>phdr</code>, 32/56 bytes), which
+      tells it what to map into memory. Almost everything else is optional.</p>
+
+      <p>We worked with Linux kernel 6.12 and iteratively probed it to find apparent requirements:</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Field</th>
+            <th>i386</th>
+            <th>x86-64</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Magic <code>7F 45 4C 46</code></td>
+            <td>required</td>
+            <td>required</td>
+          </tr>
+          <tr>
+            <td><code>e_type</code></td>
+            <td>2 or 3</td>
+            <td>2 or 3</td>
+          </tr>
+          <tr>
+            <td><code>e_machine</code></td>
+            <td>3 or 6</td>
+            <td>0x3E</td>
+          </tr>
+          <tr>
+            <td><code>e_phentsize</code></td>
+            <td>exactly 32</td>
+            <td>exactly 56</td>
+          </tr>
+          <tr>
+            <td><code>e_phnum</code></td>
+            <td>&ge; 1</td>
+            <td>&ge; 1</td>
+          </tr>
+          <tr>
+            <td><code>p_type</code></td>
+            <td>1 (PT_LOAD)</td>
+            <td>1 (PT_LOAD)</td>
+          </tr>
+          <tr>
+            <td><code>p_flags</code></td>
+            <td>any with PF_R</td>
+            <td>must include PF_X</td>
+          </tr>
+          <tr>
+            <td><strong>everything else</strong></td>
+            <td><strong>ignored</strong></td>
+            <td><strong>ignored</strong></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p><code>EI_CLASS</code>, <code>EI_DATA</code>, <code>e_ehsize</code>, <code>e_shoff</code>, <code>e_flags</code>, <code>p_align</code>,
+      <code>p_paddr</code> are all unchecked in our experiment.</p>
+    </div>
+
+    <div class="section">
+      <h2>i386: 58 bytes</h2>
+
+      <p><strong>Step 1 &mdash; Set <code>e_phoff = 4</code>.</strong> This makes the 32-byte program header
+      overlay bytes 4&ndash;35 of the ELF header. <code>p_type</code> now reads byte 4
+      (<code>EI_CLASS=1</code>) as <code>PT_LOAD=1</code>, and <code>p_flags</code> reads <code>e_phoff</code> itself
+      (value 4) as <code>PF_R</code>. This is Raiter&rsquo;s
+      <a href="https://www.muppetlabs.com/~breadbox/software/tiny/teensy.html">45-byte trick</a>;
+      on 32-bit, missing <code>PT_GNU_STACK</code> triggers <code>READ_IMPLIES_EXEC</code>, so PF_R
+      alone is enough.</p>
+
+      <p><strong>Step 2 &mdash; Pick a load address whose bytes are also instructions.</strong> With
+      entry at file offset <code>0x14</code>, <code>e_entry</code> (which doubles as <code>p_memsz</code>) is
+      <code>load_addr + 0x14</code>. Choose <code>load_addr = 0x05430000</code> so <code>e_entry</code>
+      encodes as <code>14 00 43 05</code>:</p>
+
+<pre><code>14 00   adc al, 0      ; harmless
+43      inc ebx        ; ebx=1 (stdout)
+05 ..   add eax, imm32 ; imm32 = next 4 bytes = e_phoff = 4 &rarr; eax=4 (SYS_write)</code></pre>
+
+      <p>Two register setups recovered from mandatory header bytes.</p>
+
+      <p><strong>Step 3 &mdash; Pack the rest into the gaps.</strong> <code>mov dl,len</code> goes into
+      <code>p_filesz</code>; <code>mov ecx,str; int 80h; xchg; int 80h</code> fits in <code>e_shoff</code>
+      through <code>e_ehsize</code> (all unchecked). The string starts at <code>0x2E</code>, right
+      after <code>e_phnum</code>.</p>
+
+<pre><code>00  7F 45 4C 46 01 00 00 00  00 00 00 00 00 00 43 05
+10  02 00 03 00 B2 0C B0 00  14 00 43 05 04 00 00 00
+20  B9 2E 00 43 05 CD 80 93  CD 80 20 00 01 00 .string.</code></pre>
+
+      <p>58 bytes for <code>Hello World\n</code>, 60 for <code>Hello, world!\n</code>. Raiter&rsquo;s version
+      enters at <code>0x1A</code> and uses an <code>and eax,imm32</code> to step <em>over</em> the
+      <code>e_phentsize</code> bytes; entering at <code>0x14</code> and exiting <em>before</em> them saves 3.</p>
+
+      <h3>Source</h3>
+
+<pre><code>; hello60.asm &mdash; 60-byte i386 ELF
+BITS 32
+        org   0x05430000
+
+        db    0x7F, "ELF"       ; 00: magic
+        dd    1                 ; 04: EI_CLASS=1       / p_type=PT_LOAD
+        dd    0                 ; 08: e_ident pad      / p_offset=0
+        dd    $$                ; 0C: e_ident pad      / p_vaddr=0x05430000
+        dw    2                 ; 10: e_type=ET_EXEC   / p_paddr lo
+        dw    3                 ; 12: e_machine=EM_386 / p_paddr hi
+_start:                         ; ----- e_entry points here (0x05430014) -----
+        mov   dl, msg.len       ; 14: e_version        / p_filesz  (B2 0E)
+        mov   al, 0             ; 16:   "              /   "       (B0 00)
+        ; bytes 18-1B = e_entry/p_memsz = 14 00 43 05, executed as:
+        db    0x14, 0x00        ; 18:   adc al, 0        (e_entry[0:2])
+        db    0x43              ; 1A:   inc ebx          (e_entry[2]) &rarr; ebx=1
+        db    0x05              ; 1B:   add eax, imm32   (e_entry[3])
+        dd    4                 ; 1C: e_phoff=4/p_flags=PF_R; imm32 &rarr; eax=4
+        mov   ecx, msg          ; 20: e_shoff/p_align/e_flags
+        int   0x80              ; 25:   write(1, msg, len)
+        xchg  eax, ebx          ; 27:   eax=1
+        int   0x80              ; 28:   exit(len)
+        dw    32                ; 2A: e_phentsize=32
+        dw    1                 ; 2C: e_phnum=1
+msg:    db    'Hello, world!', 10
+.len    equ   $ - msg</code></pre>
+
+      <p>Build and run:</p>
+
+<pre><code>nasm -f bin -o hello60 hello60.asm &amp;&amp; chmod +x hello60 &amp;&amp; ./hello60</code></pre>
+    </div>
+
+    <div class="section">
+      <h2>x86-64: 86 bytes</h2>
+
+      <p>ELF64 headers are bigger and the layout is different &mdash; <code>p_flags</code> sits
+      right after <code>p_type</code>, and x86-64 doesn&rsquo;t get <code>READ_IMPLIES_EXEC</code>, so
+      the 32-bit trick doesn&rsquo;t transfer directly.</p>
+
+      <p><strong>Step 1 &mdash; Set <code>e_phoff = 0x18</code>.</strong> This is the smallest value that
+      works: <code>p_type</code> reads <code>e_entry[0:4]</code>, <code>p_offset</code> reads <code>e_phoff</code> itself
+      (=0x18, small enough), and <code>p_paddr</code> (don&rsquo;t-care) lands on the mandatory
+      <code>e_phentsize</code>. Anything smaller pushes <code>e_type</code>/<code>e_machine</code> into
+      <code>p_offset</code>&rsquo;s high bytes, making it &ge; 4 GB.</p>
+
+      <p><strong>Step 2 &mdash; Live with entry at byte 1.</strong> Since <code>e_entry[0:4] = p_type = 1</code>,
+      the entry address ends in <code>...0001</code> &mdash; file byte 1, mid-magic. Bytes 1&ndash;3
+      are <code>"ELF"</code> = <code>45 4C 46</code>, which decode as three REX prefixes. The CPU
+      keeps the last one and treats byte 4 as the opcode, so put real code there.</p>
+
+      <p><strong>Step 3 &mdash; Absorb the fixed bytes as immediates.</strong> A <code>cmp eax, imm32</code>
+      at byte <code>0x0F</code> swallows <code>e_type</code>/<code>e_machine</code> (<code>02 00 3E 00</code>) as its
+      operand. A short <code>jmp</code> at <code>0x16</code> hops over <code>e_entry</code>/<code>e_phoff</code>/<code>p_vaddr</code>
+      into <code>p_paddr</code> for the two <code>syscall</code> instructions.</p>
+
+      <p><strong>Step 4 &mdash; String in <code>p_align</code>.</strong> Bytes <code>0x48&ndash;0x4F</code> are <code>p_align</code>
+      (unchecked), giving 8 free bytes; the remaining 6 trail off the end.</p>
+
+<pre><code>00  7F 45 4C 46 B0 01 89 C7  48 8D 35 39 00 00 00 3D   mov al,1; mov edi,eax; lea rsi,[rip+str]; cmp eax,
+10  02 00 3E 00 B2 0E EB 18  01 00 00 00 05 00 00 00   &lt;e_type/mach&gt;; mov dl,14; jmp 0x30 | e_entry=p_type/p_flags
+20  18 00 00 00 00 00 00 00  18 00 00 00 05 00 00 00   e_phoff=p_offset | p_vaddr
+30  0F 05 B0 3C 0F 05 38 00  01 00 00 00 00 00 00 00   syscall; mov al,60; syscall | phentsize/phnum/filesz
+40  01 00 00 00 00 00 00 00  "Hello, world!\n"         p_memsz | p_align+tail = string</code></pre>
+
+      <p>86 bytes. Otterness overlapped 8 bytes of header; this overlaps 40.</p>
+
+      <h3>Source</h3>
+
+<pre><code>; hello64_86.asm &mdash; 86-byte x86-64 ELF
+BITS 64
+        org   0x500000000
+
+        db    0x7F                   ; 00: magic[0]
+_start:                              ; entry @ byte 1: "ELF" = 3 REX prefixes
+        db    "ELF"                  ; 01: magic[1:4] = 45 4C 46 = REX.B,.WR,.RX
+        mov   al, 1                  ; 04: e_ident pad &mdash; first real opcode
+        mov   edi, eax               ; 06:   rdi=1 (stdout)
+        lea   rsi, [rel msg]         ; 08:   rsi=&amp;msg (rip-relative)
+        db    0x3D                   ; 0F: cmp eax, imm32 &mdash; eats next 4 bytes:
+        dw    2                      ; 10: e_type=ET_EXEC
+        dw    0x3E                   ; 12: e_machine=EM_X86_64
+        mov   dl, msg.len            ; 14: e_version
+        jmp   tail                   ; 16:   &rarr; 0x30 (p_paddr)
+        dd    1                      ; 18: e_entry[0:4]  / p_type=PT_LOAD
+        dd    5                      ; 1C: e_entry[4:8]  / p_flags=PF_R|PF_X
+        dq    0x18                   ; 20: e_phoff       / p_offset = 0x18
+        dq    $$ + 0x18              ; 28: e_shoff       / p_vaddr
+tail:   syscall                      ; 30: e_flags&hellip;      / p_paddr &mdash; write()
+        mov   al, 60                 ; 32:
+        syscall                      ; 34:                 &mdash; exit()
+        dw    56                     ; 36: e_phentsize=56
+        dw    1                      ; 38: e_phnum=1     / p_filesz[0:2]
+        dw    0, 0, 0                ; 3A: e_sh*         / p_filesz[2:8]
+        dq    1                      ; 40:               / p_memsz=1
+msg:    db    'Hello, world!', 10    ; 48:               / p_align + tail
+.len    equ   $ - msg</code></pre>
+
+      <p>Build and run:</p>
+
+<pre><code>nasm -f bin -o hello64_86 hello64_86.asm &amp;&amp; chmod +x hello64_86 &amp;&amp; ./hello64_86</code></pre>
+
+    </div>
+
+    <div class="section">
+      <h2>Why not smaller?</h2>
+
+      <p>Both floors come down a handful of small integers
+      (<code>p_type=1</code>, <code>e_phoff=4</code>, <code>e_phentsize=32</code>, <code>e_phnum=1</code>) that sit at fixed
+      offsets. These all have high bytes set to zero which are the upper bits of the numbers. 
+      The longest run of bytes you can freely choose is 10 (i386) or 14 (x86-64). The "Hello, world!" string is longer than
+      either, so it has to go after the last forced byte. Add the string length to that offset and you get the floor.</p>
+    </div>
+
+    <div class="section">
+      <h2>References</h2>
+
+      <ul>
+        <li>Brian Raiter, <a href="https://www.muppetlabs.com/~breadbox/software/tiny/teensy.html"><em>A Whirlwind Tutorial on Creating Really Teensy ELF Executables</em></a> &mdash; the original 45-byte analysis</li>
+        <li>Brian Raiter, <a href="https://www.muppetlabs.com/~breadbox/software/tiny/hello.asm.txt">hello.asm</a> &mdash; the <code>0x05430000</code> trick</li>
+        <li>Nathan Otterness, <a href="https://nathanotterness.com/2021/10/tiny_elf_modernized.html"><em>Tiny ELF Files: Revisited in 2021</em></a> &mdash; modern x86-64 baseline</li>
+        <li>tmp.0ut #3, <a href="https://tmpout.sh/3/22.html"><em>Cramming a Tiny Program into a Tiny ELF File</em></a> &mdash; x86-64 syscall-return tricks</li>
+      </ul>
+    </div>
+  </div>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-448164-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-448164-1');
+  </script>
+</body>
+</html>
