@@ -14,16 +14,19 @@
     <div class="page-header">
       <a href="../index.html" class="back-link">Stephen A. Weis</a>
       <h1>Shrinking &ldquo;Hello, world!&rdquo; ELF Binaries: 76&rarr;58 (i386) and 120&rarr;86 (x86-64)</h1>
-      <p class="text-muted">April 7, 2026</p>
     </div>
 
     <div class="section">
+      <p>The work in this post was generated using Claude.</p>
+    </div>
+    <hr/>
+    <div class="section">
       <p>How small can a Linux executable that prints <code>Hello, world!</code> actually be?
-      Starting from the prior community benchmarks &mdash; Brian Raiter&rsquo;s
+      Starting from the prior benchmarks of Brian Raiter&rsquo;s
       <a href="https://www.muppetlabs.com/~breadbox/software/tiny/hello.asm.txt">62-byte i386 hello</a>
       and Nathan Otterness&rsquo;s
-      <a href="https://nathanotterness.com/2021/10/tiny_elf_modernized.html">120-byte x86-64 hello</a> &mdash;
-      here&rsquo;s how to take a few more bytes off each.</p>
+      <a href="https://nathanotterness.com/2021/10/tiny_elf_modernized.html">120-byte x86-64 hello</a>, 
+        we look at how to take a few more bytes off each implementation.</p>
     </div>
 
     <div class="section">
@@ -33,7 +36,7 @@
       the kernel where to find the program header (<code>phdr</code>, 32/56 bytes), which
       tells it what to map into memory. Almost everything else is optional.</p>
 
-      <p>Probing kernel 6.12 turned up the actual hard rules:</p>
+      <p>We worked with Linux kernel 6.12 and iteratively probed it to find apparent requirements:</p>
 
       <table>
         <thead>
@@ -88,7 +91,7 @@
       </table>
 
       <p><code>EI_CLASS</code>, <code>EI_DATA</code>, <code>e_ehsize</code>, <code>e_shoff</code>, <code>e_flags</code>, <code>p_align</code>,
-      <code>p_paddr</code> &mdash; all unchecked. That&rsquo;s a lot of bytes to repurpose.</p>
+      <code>p_paddr</code> are all unchecked in our experiment.</p>
     </div>
 
     <div class="section">
@@ -158,12 +161,6 @@ msg:    db    'Hello, world!', 10
       <p>Build and run:</p>
 
 <pre><code>nasm -f bin -o hello60 hello60.asm &amp;&amp; chmod +x hello60 &amp;&amp; ./hello60</code></pre>
-
-      <p>Or skip the build:</p>
-
-<pre><code>base64 -d &lt;&lt;'EOF' &gt; hello60 &amp;&amp; chmod +x hello60 &amp;&amp; ./hello60
-f0VMRgEAAAAAAAAAAABDBQIAAwCyDrAAFABDBQQAAAC5LgBDBc2Ak82AIAABAEhlbGxvLCB3b3JsZCEK
-EOF</code></pre>
     </div>
 
     <div class="section">
@@ -235,23 +232,16 @@ msg:    db    'Hello, world!', 10    ; 48:               / p_align + tail
 
 <pre><code>nasm -f bin -o hello64_86 hello64_86.asm &amp;&amp; chmod +x hello64_86 &amp;&amp; ./hello64_86</code></pre>
 
-      <p>Or skip the build:</p>
-
-<pre><code>base64 -d &lt;&lt;'EOF' &gt; hello64_86 &amp;&amp; chmod +x hello64_86 &amp;&amp; ./hello64_86
-f0VMRrABicdIjTU5AAAAPQIAPgCyDusYAQAAAAUAAAAYAAAAAAAAABgAAAAFAAAADwWwPA8FOAABAAAAAAAAAAEAAAAAAAAASGVsbG8sIHdvcmxkIQo=
-EOF</code></pre>
     </div>
 
     <div class="section">
       <h2>Why not smaller?</h2>
 
-      <p>Both floors come down to one thing: a handful of small integers
-      (<code>p_type=1</code>, <code>e_phoff=4</code>, <code>e_phentsize=32</code>, <code>e_phnum=1</code>) sit at fixed
-      offsets, and their high bytes are zero. Those zeros aren&rsquo;t padding &mdash;
-      they&rsquo;re the upper bits of the numbers. The longest run of bytes you can
-      freely choose is 10 (i386) or 14 (x86-64), and the string is longer than
-      either, so it has to go after the last forced byte. Add the string
-      length to that offset and you get the floor.</p>
+      <p>Both floors come down a handful of small integers
+      (<code>p_type=1</code>, <code>e_phoff=4</code>, <code>e_phentsize=32</code>, <code>e_phnum=1</code>) that sit at fixed
+      offsets. These all have high bytes set to zero which are the upper bits of the numbers. 
+      The longest run of bytes you can freely choose is 10 (i386) or 14 (x86-64). The "Hello, world!" string is longer than
+      either, so it has to go after the last forced byte. Add the string length to that offset and you get the floor.</p>
     </div>
 
     <div class="section">
