@@ -3,7 +3,7 @@
 
 <head>
   <title>Shrinking "Hello, world!" ELF Binaries</title>
-  <meta name="description" content="How small can a Linux executable that prints Hello, world! actually be? 76→58 bytes (i386) and 120→86 bytes (x86-64)." />
+  <meta name="description" content="Shrinking Hello, world! ELF binaries: 62→60 bytes on i386 and 120→86 bytes on x86-64 by overlapping headers and encoding instructions in unused fields." />
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="../style.css" type="text/css" />
@@ -13,7 +13,7 @@
   <div class="container">
     <div class="page-header">
       <a href="../index.html" class="back-link">Stephen A. Weis</a>
-      <h1>Shrinking &ldquo;Hello, world!&rdquo; ELF Binaries: 76&rarr;58 (i386) and 120&rarr;86 (x86-64)</h1>
+      <h1>Shrinking &ldquo;Hello, world!&rdquo; ELF Binaries</h1>
     </div>
 
     <div class="section">
@@ -22,21 +22,27 @@
     <hr/>
     <div class="section">
       <p>How small can a Linux executable that prints <code>Hello, world!</code> actually be?
-      Starting from the prior benchmarks of Brian Raiter&rsquo;s
+      Starting from two prior benchmarks, Brian Raiter&rsquo;s
       <a href="https://www.muppetlabs.com/~breadbox/software/tiny/hello.asm.txt">62-byte i386 hello</a>
       and Nathan Otterness&rsquo;s
-      <a href="https://nathanotterness.com/2021/10/tiny_elf_modernized.html">120-byte x86-64 hello</a>, 
-        we look at how to take a few more bytes off each implementation.</p>
+      <a href="https://nathanotterness.com/2021/10/tiny_elf_modernized.html">120-byte x86-64 hello</a>,
+      we look at how to shave a few more bytes off each.
+      The techniques below produce a 60-byte i386 binary and an 86-byte x86-64 binary,
+      both printing <code>Hello, world!\n</code>.</p>
     </div>
 
     <div class="section">
       <h2>Background: what the kernel actually checks</h2>
 
-      <p>An ELF file has two headers: the ELF header (<code>ehdr</code>, 52/64 bytes) tells
-      the kernel where to find the program header (<code>phdr</code>, 32/56 bytes), which
-      tells it what to map into memory. Almost everything else is optional.</p>
+      <p>An ELF file has two headers that matter for execution.
+      The ELF header (<code>ehdr</code>) is 52 bytes on 32-bit and 64 bytes on 64-bit.
+      It tells the kernel where to find the program header (<code>phdr</code>),
+      which is 32 bytes on 32-bit and 56 bytes on 64-bit.
+      The program header tells the kernel what to map into memory.</p>
 
-      <p>We worked with Linux kernel 6.12 and iteratively probed it to find apparent requirements:</p>
+      <p>We worked with Linux kernel 6.12 and iteratively probed it to find
+      which ELF fields it actually checks before executing a binary.
+      These are the fields we found to be required:</p>
 
       <table>
         <thead>
@@ -82,56 +88,69 @@
             <td>any with PF_R</td>
             <td>must include PF_X</td>
           </tr>
-          <tr>
-            <td><strong>everything else</strong></td>
-            <td><strong>ignored</strong></td>
-            <td><strong>ignored</strong></td>
-          </tr>
         </tbody>
       </table>
 
-      <p><code>EI_CLASS</code>, <code>EI_DATA</code>, <code>e_ehsize</code>, <code>e_shoff</code>, <code>e_flags</code>, <code>p_align</code>,
-      <code>p_paddr</code> are all unchecked in our experiment.</p>
+      <p>In our testing, the following fields were not checked by the kernel and could
+      be set to arbitrary values without preventing execution:
+      <code>EI_CLASS</code>, <code>EI_DATA</code>, <code>e_ehsize</code>,
+      <code>e_shoff</code>, <code>e_flags</code>, <code>e_version</code>,
+      <code>p_align</code>, and <code>p_paddr</code>.
+      This means their bytes can be repurposed to hold executable code.</p>
     </div>
 
     <div class="section">
-      <h2>i386: 58 bytes</h2>
+      <h2>i386: 60 bytes</h2>
 
-      <p><strong>Step 1 &mdash; Set <code>e_phoff = 4</code>.</strong> This makes the 32-byte program header
-      overlay bytes 4&ndash;35 of the ELF header. <code>p_type</code> now reads byte 4
-      (<code>EI_CLASS=1</code>) as <code>PT_LOAD=1</code>, and <code>p_flags</code> reads <code>e_phoff</code> itself
-      (value 4) as <code>PF_R</code>. This is Raiter&rsquo;s
-      <a href="https://www.muppetlabs.com/~breadbox/software/tiny/teensy.html">45-byte trick</a>;
-      on 32-bit, missing <code>PT_GNU_STACK</code> triggers <code>READ_IMPLIES_EXEC</code>, so PF_R
-      alone is enough.</p>
+      <p>The key idea is to overlay the 32-byte program header on top of the
+      ELF header so they share the same bytes, then encode executable instructions
+      inside header fields that the kernel ignores.</p>
 
-      <p><strong>Step 2 &mdash; Pick a load address whose bytes are also instructions.</strong> With
-      entry at file offset <code>0x14</code>, <code>e_entry</code> (which doubles as <code>p_memsz</code>) is
-      <code>load_addr + 0x14</code>. Choose <code>load_addr = 0x05430000</code> so <code>e_entry</code>
-      encodes as <code>14 00 43 05</code>:</p>
+      <p><strong>Step 1: Overlap the headers.</strong> Setting <code>e_phoff = 4</code>
+      tells the kernel the program header starts at byte 4 of the file.
+      This means the 32-byte program header occupies bytes 4&ndash;35,
+      overlapping most of the ELF header. The overlap works because
+      the byte at offset 4 (<code>EI_CLASS=1</code>) is read as <code>p_type=PT_LOAD=1</code>,
+      and <code>e_phoff</code> itself (value 4) is read as <code>p_flags</code> with bit <code>PF_R</code> set.
+      This is the same
+      <a href="https://www.muppetlabs.com/~breadbox/software/tiny/teensy.html">technique Raiter used</a>
+      in his 45-byte program. On i386 Linux, a binary without a <code>PT_GNU_STACK</code>
+      segment gets <code>READ_IMPLIES_EXEC</code>, so having only the read permission
+      flag is sufficient.</p>
 
-<pre><code>14 00   adc al, 0      ; harmless
-43      inc ebx        ; ebx=1 (stdout)
-05 ..   add eax, imm32 ; imm32 = next 4 bytes = e_phoff = 4 &rarr; eax=4 (SYS_write)</code></pre>
+      <p><strong>Step 2: Choose a load address that doubles as code.</strong>
+      The entry point address is stored as <code>e_entry</code> in the ELF header.
+      Because the headers are overlapped, <code>e_entry</code> also occupies
+      the <code>p_memsz</code> field of the program header. The CPU will execute these
+      bytes as instructions when it jumps to the entry point, so the load address
+      must be chosen so that its little-endian encoding forms valid i386 instructions.
+      With an entry point at file offset <code>0x14</code> and
+      <code>load_addr = 0x05430000</code>, the entry address <code>0x05430014</code>
+      encodes as <code>14 00 43 05</code> in little-endian, which the CPU decodes as:</p>
 
-      <p>Two register setups recovered from mandatory header bytes.</p>
+<pre><code>14 00   adc al, 0      ; no-op (al is already 0)
+43      inc ebx        ; ebx becomes 1 (stdout file descriptor)
+05 ..   add eax, imm32 ; consumes the next 4 bytes as an immediate</code></pre>
 
-      <p><strong>Step 3 &mdash; Pack the rest into the gaps.</strong> <code>mov dl,len</code> goes into
-      <code>p_filesz</code>; <code>mov ecx,str; int 80h; xchg; int 80h</code> fits in <code>e_shoff</code>
-      through <code>e_ehsize</code> (all unchecked). The string starts at <code>0x2E</code>, right
-      after <code>e_phnum</code>.</p>
+      <p>The <code>add eax</code> instruction&rsquo;s immediate operand is the next 4 bytes
+      in the file, which happen to be <code>e_phoff = 4</code>. After execution,
+      <code>eax = 4</code> = the Linux <code>SYS_write</code> syscall number, and <code>ebx = 1</code> = stdout.
+      Two register setups come for free from mandatory header bytes.</p>
 
-<pre><code>00  7F 45 4C 46 01 00 00 00  00 00 00 00 00 00 43 05
-10  02 00 03 00 B2 0C B0 00  14 00 43 05 04 00 00 00
-20  B9 2E 00 43 05 CD 80 93  CD 80 20 00 01 00 .string.</code></pre>
+      <p><strong>Step 3: Pack the remaining code into unchecked fields.</strong>
+      The <code>write</code> syscall needs a pointer to the string (<code>ecx</code>) and a length (<code>edx</code>).
+      <code>mov dl, len</code> goes into the <code>p_filesz</code> field (not checked for correctness),
+      and <code>mov ecx, msg; int 80h; xchg eax, ebx; int 80h</code> fits into the
+      <code>e_shoff</code> through <code>e_ehsize</code> fields (all unchecked).
+      The <code>Hello, world!\n</code> string itself starts at byte <code>0x2E</code>,
+      immediately after the last required field (<code>e_phnum</code> at offset <code>0x2C</code>).</p>
 
-      <p>58 bytes for <code>Hello World\n</code>, 60 for <code>Hello, world!\n</code>. Raiter&rsquo;s version
-      enters at <code>0x1A</code> and uses an <code>and eax,imm32</code> to step <em>over</em> the
-      <code>e_phentsize</code> bytes; entering at <code>0x14</code> and exiting <em>before</em> them saves 3.</p>
+      <p>The result is 60 bytes for <code>Hello, world!\n</code> (14-character string).
+      A shorter string like <code>Hello World\n</code> (12 characters) would give 58 bytes.</p>
 
       <h3>Source</h3>
 
-<pre><code>; hello60.asm &mdash; 60-byte i386 ELF
+<pre><code>; hello60.asm - 60-byte i386 ELF
 BITS 32
         org   0x05430000
 
@@ -166,50 +185,71 @@ msg:    db    'Hello, world!', 10
     <div class="section">
       <h2>x86-64: 86 bytes</h2>
 
-      <p>ELF64 headers are bigger and the layout is different &mdash; <code>p_flags</code> sits
-      right after <code>p_type</code>, and x86-64 doesn&rsquo;t get <code>READ_IMPLIES_EXEC</code>, so
-      the 32-bit trick doesn&rsquo;t transfer directly.</p>
+      <p>ELF64 headers are larger (64 + 56 = 120 bytes without overlap,
+      compared to 52 + 32 = 84 on 32-bit), and the layout differs:
+      <code>p_flags</code> sits right after <code>p_type</code> instead of at the end of the
+      program header. On x86-64, the kernel requires the execute permission
+      flag (<code>PF_X</code>). Unlike i386, there is no <code>READ_IMPLIES_EXEC</code> fallback.
+      These constraints mean the i386 overlapping strategy doesn&rsquo;t
+      transfer directly.</p>
 
-      <p><strong>Step 1 &mdash; Set <code>e_phoff = 0x18</code>.</strong> This is the smallest value that
-      works: <code>p_type</code> reads <code>e_entry[0:4]</code>, <code>p_offset</code> reads <code>e_phoff</code> itself
-      (=0x18, small enough), and <code>p_paddr</code> (don&rsquo;t-care) lands on the mandatory
-      <code>e_phentsize</code>. Anything smaller pushes <code>e_type</code>/<code>e_machine</code> into
-      <code>p_offset</code>&rsquo;s high bytes, making it &ge; 4 GB.</p>
+      <p><strong>Step 1: Overlap the headers at <code>e_phoff = 0x18</code>.</strong>
+      Setting <code>e_phoff = 0x18</code> (byte 24) places the 56-byte program header
+      starting at the <code>e_entry</code> field. This is the smallest offset that works:
+      the low 4 bytes of <code>e_entry</code> are read as <code>p_type</code> (which must be 1),
+      <code>e_phoff</code> itself becomes <code>p_offset</code> (value 0x18, small enough to be valid),
+      and the unchecked <code>p_paddr</code> field lands on top of the required <code>e_phentsize</code>.
+      Any smaller offset would push <code>e_type</code>/<code>e_machine</code> into the high
+      bytes of <code>p_offset</code>, producing an offset &ge; 4 GB.</p>
 
-      <p><strong>Step 2 &mdash; Live with entry at byte 1.</strong> Since <code>e_entry[0:4] = p_type = 1</code>,
-      the entry address ends in <code>...0001</code> &mdash; file byte 1, mid-magic. Bytes 1&ndash;3
-      are <code>"ELF"</code> = <code>45 4C 46</code>, which decode as three REX prefixes. The CPU
-      keeps the last one and treats byte 4 as the opcode, so put real code there.</p>
+      <p><strong>Step 2: Enter at byte 1, inside the magic number.</strong>
+      Because <code>e_entry</code>&rsquo;s low bytes must equal <code>p_type = 1</code>,
+      the entry address ends in <code>...0001</code>, pointing to file byte 1,
+      in the middle of the 4-byte ELF magic. Bytes 1&ndash;3 are the ASCII
+      characters <code>"ELF"</code> = <code>0x45 0x4C 0x46</code>.
+      In x86-64 long mode, byte values <code>0x40</code>&ndash;<code>0x4F</code> are
+      <a href="https://wiki.osdev.org/X86-64_Instruction_Encoding#REX_prefix">REX prefixes</a>.
+      When multiple REX prefixes appear in sequence, the CPU uses the last one
+      and treats the next byte as the real opcode.
+      So byte 4 is where real code begins.</p>
 
-      <p><strong>Step 3 &mdash; Absorb the fixed bytes as immediates.</strong> A <code>cmp eax, imm32</code>
-      at byte <code>0x0F</code> swallows <code>e_type</code>/<code>e_machine</code> (<code>02 00 3E 00</code>) as its
-      operand. A short <code>jmp</code> at <code>0x16</code> hops over <code>e_entry</code>/<code>e_phoff</code>/<code>p_vaddr</code>
-      into <code>p_paddr</code> for the two <code>syscall</code> instructions.</p>
+      <p><strong>Step 3: Use instructions that absorb fixed header bytes.</strong>
+      At byte <code>0x0F</code>, a <code>cmp eax, imm32</code> instruction consumes the next
+      4 bytes as a dummy operand. Those 4 bytes are <code>e_type</code> and
+      <code>e_machine</code> (<code>02 00 3E 00</code>), which cannot be changed.
+      A short <code>jmp</code> at byte <code>0x16</code> skips over the <code>e_entry</code>,
+      <code>e_phoff</code>, and <code>p_vaddr</code> fields (which must hold specific values)
+      and lands in <code>p_paddr</code> (unchecked), where the <code>syscall</code> instructions
+      live.</p>
 
-      <p><strong>Step 4 &mdash; String in <code>p_align</code>.</strong> Bytes <code>0x48&ndash;0x4F</code> are <code>p_align</code>
-      (unchecked), giving 8 free bytes; the remaining 6 trail off the end.</p>
+      <p><strong>Step 4: Store the string in <code>p_align</code>.</strong>
+      Bytes <code>0x48</code>&ndash;<code>0x4F</code> correspond to the <code>p_align</code> field,
+      which the kernel does not check. That provides 8 free bytes; the remaining
+      6 bytes of the 14-character string extend past the end of the program header.</p>
 
-<pre><code>00  7F 45 4C 46 B0 01 89 C7  48 8D 35 39 00 00 00 3D   mov al,1; mov edi,eax; lea rsi,[rip+str]; cmp eax,
-10  02 00 3E 00 B2 0E EB 18  01 00 00 00 05 00 00 00   &lt;e_type/mach&gt;; mov dl,14; jmp 0x30 | e_entry=p_type/p_flags
-20  18 00 00 00 00 00 00 00  18 00 00 00 05 00 00 00   e_phoff=p_offset | p_vaddr
-30  0F 05 B0 3C 0F 05 38 00  01 00 00 00 00 00 00 00   syscall; mov al,60; syscall | phentsize/phnum/filesz
-40  01 00 00 00 00 00 00 00  "Hello, world!\n"         p_memsz | p_align+tail = string</code></pre>
+<pre><code>00  7F 45 4C 46 B0 01 89 C7  48 8D 35 39 00 00 00 3D
+10  02 00 3E 00 B2 0E EB 18  01 00 00 00 05 00 00 00
+20  18 00 00 00 00 00 00 00  18 00 00 00 05 00 00 00
+30  0F 05 B0 3C 0F 05 38 00  01 00 00 00 00 00 00 00
+40  01 00 00 00 00 00 00 00  48 65 6C 6C 6F 2C 20 77
+50  6F 72 6C 64 21 0A</code></pre>
 
-      <p>86 bytes. Otterness overlapped 8 bytes of header; this overlaps 40.</p>
+      <p>86 bytes total. The ELF header and program header overlap by 40 bytes
+      (the program header starts at byte 0x18 inside the 64-byte ELF header).</p>
 
       <h3>Source</h3>
 
-<pre><code>; hello64_86.asm &mdash; 86-byte x86-64 ELF
+<pre><code>; hello64_86.asm - 86-byte x86-64 ELF
 BITS 64
         org   0x500000000
 
         db    0x7F                   ; 00: magic[0]
 _start:                              ; entry @ byte 1: "ELF" = 3 REX prefixes
         db    "ELF"                  ; 01: magic[1:4] = 45 4C 46 = REX.B,.WR,.RX
-        mov   al, 1                  ; 04: e_ident pad &mdash; first real opcode
+        mov   al, 1                  ; 04: e_ident pad - first real opcode
         mov   edi, eax               ; 06:   rdi=1 (stdout)
         lea   rsi, [rel msg]         ; 08:   rsi=&amp;msg (rip-relative)
-        db    0x3D                   ; 0F: cmp eax, imm32 &mdash; eats next 4 bytes:
+        db    0x3D                   ; 0F: cmp eax, imm32 - eats next 4 bytes:
         dw    2                      ; 10: e_type=ET_EXEC
         dw    0x3E                   ; 12: e_machine=EM_X86_64
         mov   dl, msg.len            ; 14: e_version
@@ -218,9 +258,9 @@ _start:                              ; entry @ byte 1: "ELF" = 3 REX prefixes
         dd    5                      ; 1C: e_entry[4:8]  / p_flags=PF_R|PF_X
         dq    0x18                   ; 20: e_phoff       / p_offset = 0x18
         dq    $$ + 0x18              ; 28: e_shoff       / p_vaddr
-tail:   syscall                      ; 30: e_flags&hellip;      / p_paddr &mdash; write()
+tail:   syscall                      ; 30: e_flags...     / p_paddr - write()
         mov   al, 60                 ; 32:
-        syscall                      ; 34:                 &mdash; exit()
+        syscall                      ; 34:                 - exit()
         dw    56                     ; 36: e_phentsize=56
         dw    1                      ; 38: e_phnum=1     / p_filesz[0:2]
         dw    0, 0, 0                ; 3A: e_sh*         / p_filesz[2:8]
@@ -237,21 +277,24 @@ msg:    db    'Hello, world!', 10    ; 48:               / p_align + tail
     <div class="section">
       <h2>Why not smaller?</h2>
 
-      <p>Both floors come down a handful of small integers
-      (<code>p_type=1</code>, <code>e_phoff=4</code>, <code>e_phentsize=32</code>, <code>e_phnum=1</code>) that sit at fixed
-      offsets. These all have high bytes set to zero which are the upper bits of the numbers. 
-      The longest run of bytes you can freely choose is 10 (i386) or 14 (x86-64). The "Hello, world!" string is longer than
-      either, so it has to go after the last forced byte. Add the string length to that offset and you get the floor.</p>
+      <p>The minimum size is constrained by the required header fields.
+      Fields like <code>p_type=1</code>, <code>e_phentsize=32</code>, and <code>e_phnum=1</code>
+      are small integers at fixed offsets, and their upper bytes must be zero.
+      These zero bytes break up the available space into short runs that are
+      too small to hold the output string.
+      As a result, the string must go after the last required field,
+      and the total file size is at least the offset of that field plus the
+      string length.</p>
     </div>
 
     <div class="section">
       <h2>References</h2>
 
       <ul>
-        <li>Brian Raiter, <a href="https://www.muppetlabs.com/~breadbox/software/tiny/teensy.html"><em>A Whirlwind Tutorial on Creating Really Teensy ELF Executables</em></a> &mdash; the original 45-byte analysis</li>
-        <li>Brian Raiter, <a href="https://www.muppetlabs.com/~breadbox/software/tiny/hello.asm.txt">hello.asm</a> &mdash; the <code>0x05430000</code> trick</li>
-        <li>Nathan Otterness, <a href="https://nathanotterness.com/2021/10/tiny_elf_modernized.html"><em>Tiny ELF Files: Revisited in 2021</em></a> &mdash; modern x86-64 baseline</li>
-        <li>tmp.0ut #3, <a href="https://tmpout.sh/3/22.html"><em>Cramming a Tiny Program into a Tiny ELF File</em></a> &mdash; x86-64 syscall-return tricks</li>
+        <li>Brian Raiter, <a href="https://www.muppetlabs.com/~breadbox/software/tiny/teensy.html"><em>A Whirlwind Tutorial on Creating Really Teensy ELF Executables</em></a>, the original 45-byte analysis</li>
+        <li>Brian Raiter, <a href="https://www.muppetlabs.com/~breadbox/software/tiny/hello.asm.txt">hello.asm</a>, the <code>0x05430000</code> trick</li>
+        <li>Nathan Otterness, <a href="https://nathanotterness.com/2021/10/tiny_elf_modernized.html"><em>Tiny ELF Files: Revisited in 2021</em></a>, modern x86-64 baseline</li>
+        <li>tmp.0ut #3, <a href="https://tmpout.sh/3/22.html"><em>Cramming a Tiny Program into a Tiny ELF File</em></a>, x86-64 tiny ELF case study</li>
       </ul>
     </div>
   </div>
