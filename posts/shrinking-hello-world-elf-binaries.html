@@ -22,10 +22,10 @@
     <hr/>
     <div class="section">
       <p>How small can a Linux executable that prints <code>Hello, world!</code> actually be?
-      Starting from two prior benchmarks &mdash; Brian Raiter&rsquo;s
+      Starting from two prior benchmarks, Brian Raiter&rsquo;s
       <a href="https://www.muppetlabs.com/~breadbox/software/tiny/hello.asm.txt">62-byte i386 hello</a>
       and Nathan Otterness&rsquo;s
-      <a href="https://nathanotterness.com/2021/10/tiny_elf_modernized.html">120-byte x86-64 hello</a> &mdash;
+      <a href="https://nathanotterness.com/2021/10/tiny_elf_modernized.html">120-byte x86-64 hello</a>,
       we look at how to shave a few more bytes off each.
       The techniques below produce a 60-byte i386 binary and an 86-byte x86-64 binary,
       both printing <code>Hello, world!\n</code>.</p>
@@ -106,7 +106,7 @@
       ELF header so they share the same bytes, then encode executable instructions
       inside header fields that the kernel ignores.</p>
 
-      <p><strong>Step 1 &mdash; Overlap the headers.</strong> Setting <code>e_phoff = 4</code>
+      <p><strong>Step 1: Overlap the headers.</strong> Setting <code>e_phoff = 4</code>
       tells the kernel the program header starts at byte 4 of the file.
       This means the 32-byte program header occupies bytes 4&ndash;35,
       overlapping most of the ELF header. The overlap works because
@@ -118,7 +118,7 @@
       segment gets <code>READ_IMPLIES_EXEC</code>, so having only the read permission
       flag is sufficient.</p>
 
-      <p><strong>Step 2 &mdash; Choose a load address that doubles as code.</strong>
+      <p><strong>Step 2: Choose a load address that doubles as code.</strong>
       The entry point address is stored as <code>e_entry</code> in the ELF header.
       Because the headers are overlapped, <code>e_entry</code> also occupies
       the <code>p_memsz</code> field of the program header. The CPU will execute these
@@ -137,7 +137,7 @@
       <code>eax = 4</code> = the Linux <code>SYS_write</code> syscall number, and <code>ebx = 1</code> = stdout.
       Two register setups come for free from mandatory header bytes.</p>
 
-      <p><strong>Step 3 &mdash; Pack the remaining code into unchecked fields.</strong>
+      <p><strong>Step 3: Pack the remaining code into unchecked fields.</strong>
       The <code>write</code> syscall needs a pointer to the string (<code>ecx</code>) and a length (<code>edx</code>).
       <code>mov dl, len</code> goes into the <code>p_filesz</code> field (not checked for correctness),
       and <code>mov ecx, msg; int 80h; xchg eax, ebx; int 80h</code> fits into the
@@ -150,7 +150,7 @@
 
       <h3>Source</h3>
 
-<pre><code>; hello60.asm &mdash; 60-byte i386 ELF
+<pre><code>; hello60.asm - 60-byte i386 ELF
 BITS 32
         org   0x05430000
 
@@ -189,11 +189,11 @@ msg:    db    'Hello, world!', 10
       compared to 52 + 32 = 84 on 32-bit), and the layout differs:
       <code>p_flags</code> sits right after <code>p_type</code> instead of at the end of the
       program header. On x86-64, the kernel requires the execute permission
-      flag (<code>PF_X</code>) &mdash; unlike i386, there is no <code>READ_IMPLIES_EXEC</code> fallback.
+      flag (<code>PF_X</code>). Unlike i386, there is no <code>READ_IMPLIES_EXEC</code> fallback.
       These constraints mean the i386 overlapping strategy doesn&rsquo;t
       transfer directly.</p>
 
-      <p><strong>Step 1 &mdash; Overlap the headers at <code>e_phoff = 0x18</code>.</strong>
+      <p><strong>Step 1: Overlap the headers at <code>e_phoff = 0x18</code>.</strong>
       Setting <code>e_phoff = 0x18</code> (byte 24) places the 56-byte program header
       starting at the <code>e_entry</code> field. This is the smallest offset that works:
       the low 4 bytes of <code>e_entry</code> are read as <code>p_type</code> (which must be 1),
@@ -202,9 +202,9 @@ msg:    db    'Hello, world!', 10
       Any smaller offset would push <code>e_type</code>/<code>e_machine</code> into the high
       bytes of <code>p_offset</code>, producing an offset &ge; 4 GB.</p>
 
-      <p><strong>Step 2 &mdash; Enter at byte 1, inside the magic number.</strong>
+      <p><strong>Step 2: Enter at byte 1, inside the magic number.</strong>
       Because <code>e_entry</code>&rsquo;s low bytes must equal <code>p_type = 1</code>,
-      the entry address ends in <code>...0001</code> &mdash; pointing to file byte 1,
+      the entry address ends in <code>...0001</code>, pointing to file byte 1,
       in the middle of the 4-byte ELF magic. Bytes 1&ndash;3 are the ASCII
       characters <code>"ELF"</code> = <code>0x45 0x4C 0x46</code>.
       In x86-64 long mode, byte values <code>0x40</code>&ndash;<code>0x4F</code> are
@@ -213,16 +213,16 @@ msg:    db    'Hello, world!', 10
       and treats the next byte as the real opcode.
       So byte 4 is where real code begins.</p>
 
-      <p><strong>Step 3 &mdash; Use instructions that absorb fixed header bytes.</strong>
+      <p><strong>Step 3: Use instructions that absorb fixed header bytes.</strong>
       At byte <code>0x0F</code>, a <code>cmp eax, imm32</code> instruction consumes the next
-      4 bytes as a dummy operand &mdash; those 4 bytes are <code>e_type</code> and
+      4 bytes as a dummy operand. Those 4 bytes are <code>e_type</code> and
       <code>e_machine</code> (<code>02 00 3E 00</code>), which cannot be changed.
       A short <code>jmp</code> at byte <code>0x16</code> skips over the <code>e_entry</code>,
       <code>e_phoff</code>, and <code>p_vaddr</code> fields (which must hold specific values)
       and lands in <code>p_paddr</code> (unchecked), where the <code>syscall</code> instructions
       live.</p>
 
-      <p><strong>Step 4 &mdash; Store the string in <code>p_align</code>.</strong>
+      <p><strong>Step 4: Store the string in <code>p_align</code>.</strong>
       Bytes <code>0x48</code>&ndash;<code>0x4F</code> correspond to the <code>p_align</code> field,
       which the kernel does not check. That provides 8 free bytes; the remaining
       6 bytes of the 14-character string extend past the end of the program header.</p>
@@ -239,17 +239,17 @@ msg:    db    'Hello, world!', 10
 
       <h3>Source</h3>
 
-<pre><code>; hello64_86.asm &mdash; 86-byte x86-64 ELF
+<pre><code>; hello64_86.asm - 86-byte x86-64 ELF
 BITS 64
         org   0x500000000
 
         db    0x7F                   ; 00: magic[0]
 _start:                              ; entry @ byte 1: "ELF" = 3 REX prefixes
         db    "ELF"                  ; 01: magic[1:4] = 45 4C 46 = REX.B,.WR,.RX
-        mov   al, 1                  ; 04: e_ident pad &mdash; first real opcode
+        mov   al, 1                  ; 04: e_ident pad - first real opcode
         mov   edi, eax               ; 06:   rdi=1 (stdout)
         lea   rsi, [rel msg]         ; 08:   rsi=&amp;msg (rip-relative)
-        db    0x3D                   ; 0F: cmp eax, imm32 &mdash; eats next 4 bytes:
+        db    0x3D                   ; 0F: cmp eax, imm32 - eats next 4 bytes:
         dw    2                      ; 10: e_type=ET_EXEC
         dw    0x3E                   ; 12: e_machine=EM_X86_64
         mov   dl, msg.len            ; 14: e_version
@@ -258,9 +258,9 @@ _start:                              ; entry @ byte 1: "ELF" = 3 REX prefixes
         dd    5                      ; 1C: e_entry[4:8]  / p_flags=PF_R|PF_X
         dq    0x18                   ; 20: e_phoff       / p_offset = 0x18
         dq    $$ + 0x18              ; 28: e_shoff       / p_vaddr
-tail:   syscall                      ; 30: e_flags&hellip;      / p_paddr &mdash; write()
+tail:   syscall                      ; 30: e_flags...     / p_paddr - write()
         mov   al, 60                 ; 32:
-        syscall                      ; 34:                 &mdash; exit()
+        syscall                      ; 34:                 - exit()
         dw    56                     ; 36: e_phentsize=56
         dw    1                      ; 38: e_phnum=1     / p_filesz[0:2]
         dw    0, 0, 0                ; 3A: e_sh*         / p_filesz[2:8]
@@ -291,10 +291,10 @@ msg:    db    'Hello, world!', 10    ; 48:               / p_align + tail
       <h2>References</h2>
 
       <ul>
-        <li>Brian Raiter, <a href="https://www.muppetlabs.com/~breadbox/software/tiny/teensy.html"><em>A Whirlwind Tutorial on Creating Really Teensy ELF Executables</em></a> &mdash; the original 45-byte analysis</li>
-        <li>Brian Raiter, <a href="https://www.muppetlabs.com/~breadbox/software/tiny/hello.asm.txt">hello.asm</a> &mdash; the <code>0x05430000</code> trick</li>
-        <li>Nathan Otterness, <a href="https://nathanotterness.com/2021/10/tiny_elf_modernized.html"><em>Tiny ELF Files: Revisited in 2021</em></a> &mdash; modern x86-64 baseline</li>
-        <li>tmp.0ut #3, <a href="https://tmpout.sh/3/22.html"><em>Cramming a Tiny Program into a Tiny ELF File</em></a> &mdash; x86-64 tiny ELF case study</li>
+        <li>Brian Raiter, <a href="https://www.muppetlabs.com/~breadbox/software/tiny/teensy.html"><em>A Whirlwind Tutorial on Creating Really Teensy ELF Executables</em></a>, the original 45-byte analysis</li>
+        <li>Brian Raiter, <a href="https://www.muppetlabs.com/~breadbox/software/tiny/hello.asm.txt">hello.asm</a>, the <code>0x05430000</code> trick</li>
+        <li>Nathan Otterness, <a href="https://nathanotterness.com/2021/10/tiny_elf_modernized.html"><em>Tiny ELF Files: Revisited in 2021</em></a>, modern x86-64 baseline</li>
+        <li>tmp.0ut #3, <a href="https://tmpout.sh/3/22.html"><em>Cramming a Tiny Program into a Tiny ELF File</em></a>, x86-64 tiny ELF case study</li>
       </ul>
     </div>
   </div>
