@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>RSA-896</title>
+  <meta property="og:title" content="RSA-896" />
+  <meta property="og:description" name="description" content="A post about RSA-896." />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../style.css" type="text/css" />
+</head>
+
+<body>
+  <div class="container">
+    <div class="page-header">
+      <a href="../index.html" class="back-link">Stephen A. Weis</a>
+      <h1>RSA-896</h1>
+      <p class="text-muted">September 2026</p>
+    </div>
+    <p>
+    <a href="https://en.wikipedia.org/wiki/RSA_numbers#RSA-896">RSA-896</a> is a RSA challenge number that has not been factored.
+    <pre>
+    RSA-896 = 4120234369866595438555313653325759481798116998443279828454556264338764455652
+              4842619809887042316184187926142024718886949256093177637503342113098239748515
+              0944909106910269861031862704114880866970564902903653658867433731720813104105
+              190864254793282601391257624033946373269391
+    </pre>
+    <pre>
+    RSA-896 = P
+            × Q
+    </pre>
+    </p>
+  </div>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-448164-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-448164-1');
+  </script>
+</body>
+
+</html>
