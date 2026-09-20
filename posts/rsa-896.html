@@ -18,7 +18,14 @@
       <p class="text-muted">September 2026</p>
     </div>
     <p>
-    <a href="https://en.wikipedia.org/wiki/RSA_numbers#RSA-896">RSA-896</a> is a RSA challenge number I factored with Claude on September 19, 2026.
+    <a href="https://en.wikipedia.org/wiki/RSA_numbers#RSA-896">RSA-896</a> is a RSA challenge number I factored with Claude on September 19, 2026. More details will follow. Briefly, 
+      Claude was used to port <a href="https://cado-nfs.gitlabpages.inria.fr/">CADO-NFS</a> to run on GPUs. It orchestrated running on a fleet of up to 2048 GPUs as a low-priority job 
+      during unused idle time between regular jobs. The computation ran over a 10-day period and performed about 30 GPU-years of compute time at Anthropic.
+    </p>
+    <p>
+      This work did not meaninfgully improve the runtime of the General Number Field Sieve (GNFS) algorithm. It does not impact the security of deployed RSA-2048 keys. However, it does
+      demonstrates that RSA-1024 keys are vulnerable to many actors with data center-level fleets of GPUs.
+    </p>
 <pre>RSA-896 = 
 4120234369866595438555313653325759481798116998443279828454556264
 3387644556524842619809887042316184187926142024718886949256093177
@@ -34,7 +41,6 @@ q =
 572862870905830904361851542450154852431416136790787107595965374
 752513489
 </pre>
-    </p>
   </div>
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-448164-1"></script>
   <script>
