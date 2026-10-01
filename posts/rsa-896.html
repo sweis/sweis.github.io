@@ -41,7 +41,8 @@ q =
 572862870905830904361851542450154852431416136790787107595965374
 752513489
 </pre>
-    <p>The polynomial used had degree 6, alpha -11.12, Murphy E 5.293e-10, Res(f,g) = -8N, and was this:</p>
+<h2>Polynomial Parameters</h2>    
+<p>The polynomial used had degree 6, alpha -11.12, Murphy E 5.293e-10, Res(f,g) = -8N, and was this:</p>
 <pre>
 Y0: -13251813291383946856267859335343621268178701
 Y1: 73476233331852469840135261
@@ -53,6 +54,139 @@ c4: 4560157188630514979797057951
 c5: -203811845861588319720
 c6: -608639391360
 skew: 20926672.028
+</pre>
+    <p>Some more details:</p>
+
+<h2>Sieving Parameters</h2>
+<pre>
+              side 0 (rational)    side 1 (algebraic, degree 6)
+  lim         2^32 - 1             2^32 - 1
+  lpb         37                   40
+  mfb         74  (2 large primes) 120 (3 large primes)
+
+  Special-q:  prime, on side 1
+  qmin:       6.0e9
+  qmax:       4.90e10 (frontier at the stop)
+  Coverage:   about 98.7% of that range was completed. Work in flight
+              at the stop was dropped.
+  Sieve area: A = 33, a fixed 2^17 x 2^16 region.
+
+  From about 4 hours in, cells with i and j both even were skipped.
+  That leaves 3/4 of the cells and gave identical relations in testing.
+
+  We sieved at lpb 37/40 but built the matrix at 37/39. That dropped
+  35.0% of the relations.
+</pre>
+
+<h2>Batch Smoothness Detection</h2>
+<pre>
+  None. Both sides were sieved over the whole range. Cofactors were
+  factored by ECM on the GPU with B1 = 500 and B2 = 25000. The budget
+  was 35 curves, or 100 for a piece that can only be two large primes.
+  Our batch prefilter stayed off because it does not pay above mfb 96.
+</pre>
+
+<h2>Yield</h2>
+<pre>
+  Special-q sieved:   1.774e9 (q, root) pairs
+  Relations found:    37.81 G
+  Kept as unique:     29.05 G
+  Per special-q:      21.3 found, 16.4 unique (average)
+
+  Those counts cover 267,724 of the 267,969 work blocks. The final
+  unique set was 29,076,172,342 relations.
+
+  Test sieve on the final polynomial, one H100, before the sublattice
+  change (multiply ms/q by 0.88 for the rate afterwards):
+
+    q         found/q   unique/q   ms/q   duplicates
+    6e9       32.1      32.1       380     0.0%
+    3e10      19.4      13.9       372    28.2%
+    4e10      17.7      12.2       370    31.0%
+    5.5e10    16.4      10.7       369    34.5%
+
+  Production agreed with this:
+
+    part of the run           found/q   unique/q
+    first 134 M special-q     29.8      28.3
+    last 130 M special-q      17.1      11.4
+</pre>
+
+<h2>Time pre Special-Q</h2>
+<pre>
+
+  In H100 GPU-seconds, not core-seconds. The host CPU only does the
+  q-lattice reduction.
+
+    definition                                          s per special-q
+    sieving + cofactorization inside a work unit        0.333
+      (before the sublattice change)                    0.377
+    median over whole work units, incl. process start   0.340
+    all allocated GPU time in the sieving window,
+      divided by special-q completed                    0.361
+
+  The last figure includes work redone after preemptions. It comes to
+  177,929 GPU-hours, or 0.022 GPU-s per unique relation.
+
+  CPU reference, not like for like: stock las at A = 33 took 290 to 334
+  core-s per special-q on Graviton3, and about 163 physical-core-s on a
+  Xeon 8559C. That test used the RSA-260 polynomial with lim 2^31 and
+  lpb 37/38.
+</pre>
+
+<h2>Duplicates</h2>
+<pre>
+  23.2% of relations found (8.76 G of 37.81 G).
+
+  The siever removed them on the fly. A relation was dropped if a
+  smaller special-q in [qmin, q) would also find it, so the raw set was
+  never stored. The filter's own (a,b) check then found 0 duplicates in
+  the 29.08 G lines.
+</pre>
+
+<h2>Filtering and Matrix</h2>
+<pre>
+  Input:        18,895,476,871 unique relations at 37/39, plus 7.76 M
+                free relations, against 20.10 G columns
+  After purge:  5,913,776,340 x 5,913,776,180, weight 154.6 G
+  After merge (the matrix solved):
+                rows      1,482,375,753
+                columns   1,482,341,556
+                nonzeros  296,475,150,709 (200.0 per row)
+
+  The 32 heaviest columns (20.4 G nonzeros) were held out as a dense
+  block and handled at the characters step. Counting them, the matrix
+  has 213.8 nonzeros per row.
+
+  Block Wiedemann: m = n = 3584, as 56 sequences of width 64, with
+  827,234 iterations each.
+</pre>
+
+<h2>Calendar Time</h2>
+<pre>
+  Total 10.07 days (870,124 s) on up to 256 preemptible nodes of
+  8 H100 each.
+
+    phase                      wall hours
+    polynomial selection       14.9
+    test sieving, launch        2.2
+    sieving                    90.9
+    filtering                  21.9
+    Krylov                     58.8
+    Krylov check, lingen       40.2
+    mksol, gather               7.4
+    characters, square root     5.3
+
+  Notes:
+  - Polynomial selection ran on 128 nodes.
+  - Sieving includes three whole-fleet outages of 35 to 90 minutes.
+  - Filtering was about 3.1 h of actual work on 8 nodes. The rest went
+    to a preemption, a false alarm in a pre-solve audit, and preparing
+    the matrix for the solve.
+  - The first half of lingen ran alongside Krylov. The Krylov window
+    includes a fleet relaunch.
+  - Lingen was restarted four times.
+  - mksol lost about 3 h to an out-of-memory failure.
 </pre>
   </div>
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-448164-1"></script>
