@@ -82,7 +82,8 @@ body {
   font-weight: 400;
 }
 
-.site-header .byline {
+/* Byline for multi-author pages */
+.byline {
   font-size: 0.9rem;
   color: var(--color-text-secondary);
   margin: 0.25rem 0 0;
@@ -109,6 +110,7 @@ body {
   text-decoration: none;
   display: inline-block;
   margin-bottom: 1rem;
+  transition: color 0.15s ease;
 }
 
 .page-header .back-link:hover {
@@ -126,7 +128,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h2 {
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   font-weight: 600;
   margin: 2.5rem 0 1rem;
   letter-spacing: -0.01em;
@@ -139,9 +141,12 @@ h3 {
 }
 
 h4 {
-  font-size: 1.05rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  margin: 1.5rem 0 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-secondary);
+  margin: 1.5rem 0 0.75rem;
 }
 
 p {
@@ -151,12 +156,15 @@ p {
 /* Links */
 a {
   color: var(--color-link);
-  text-decoration: none;
+  text-decoration: underline;
+  text-decoration-color: var(--color-border);
+  text-underline-offset: 2px;
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
 }
 
 a:hover {
   color: var(--color-link-hover);
-  text-decoration: underline;
+  text-decoration-color: currentColor;
 }
 
 /* Lists */
@@ -172,6 +180,28 @@ li {
 
 li li {
   margin-bottom: 0.3rem;
+}
+
+/* Inline nav */
+.inline-nav {
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  margin: 0.75rem 0 0;
+}
+
+.inline-nav a {
+  color: var(--color-text-muted);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.inline-nav a:hover {
+  color: var(--color-accent);
+}
+
+.inline-nav .sep {
+  color: var(--color-border);
+  margin: 0 0.4rem;
 }
 
 /* Hero section (index page) */
@@ -204,7 +234,12 @@ li li {
 
 /* Sections */
 .section {
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+.section + .section {
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--color-border-light);
 }
 
 .section > h2:first-child,
@@ -250,7 +285,7 @@ blockquote {
   margin: 1.5rem 0;
   padding: 0.75rem 1.25rem;
   border-left: 3px solid var(--color-accent);
-  background: var(--color-border-light);
+  background: #eae5df;
   border-radius: 0 6px 6px 0;
 }
 
@@ -283,7 +318,6 @@ figcaption {
 
 figcaption a {
   color: var(--color-text-muted);
-  text-decoration: underline;
 }
 
 .img-fluid {
